@@ -2,7 +2,7 @@
 <a href="">
   <h1>Event Companion API</h1>
 </a>
-<h3>API made for my Graduation Completion of Course Work</h3>
+<h3>My college graduation project's API</h3>
 
 ## Technologies and Architecture
 - Typescript
