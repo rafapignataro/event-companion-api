@@ -38,4 +38,4 @@ yarn dev
 ```
 
 #### 5 Now its time to play: 
-- http://localhost:3000 caso rode local
+- http://localhost:3000
