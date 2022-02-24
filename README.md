@@ -4,11 +4,11 @@
 </a>
 <h3>API made for my Graduation Completion of Course Work</h3>
 
-## Tecnologias
+## Technologies and Architecture
 - Typescript
 - Express
 - Prisma
-- JWT Authentication
+- JWT
 - SOLID Principles
 
 ## :rocket: Run in your computer!
