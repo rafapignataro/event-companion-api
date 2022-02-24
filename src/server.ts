@@ -1,8 +1,8 @@
 import 'express-async-errors';
 
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 
-import { APIError } from './helpers/Error';
+import { errorHandler } from './middlewares/errorHandler';
 
 import { routes } from './routes';
 
@@ -12,12 +12,6 @@ server.use(express.json());
 
 server.use(routes);
 
-server.use((error: APIError, _: Request, response: Response, next: NextFunction) => {
-  return response.status(error.code || 500).json({
-    status: 'Error',
-    code: error.code,
-    message: error.message || 'Unexpected error',
-  });
-});
+server.use(errorHandler);
 
 server.listen(process.env.PORT || 3000);
