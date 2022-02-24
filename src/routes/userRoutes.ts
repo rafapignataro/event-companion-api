@@ -8,4 +8,14 @@ const userRoutes = Router();
 
 userRoutes.post('/authenticate', usersController.authenticate);
 
+userRoutes.post('/', usersController.createUser);
+
+userRoutes.put('/:id/password', usersController.updateUserPassword);
+
+userRoutes.put('/:id', usersController.updateUser);
+
+userRoutes.get('/:id', usersController.findUserById);
+
+userRoutes.get('/', usersController.findAllUsers);
+
 export { userRoutes };
