@@ -84,13 +84,13 @@ export class UsersController {
   public async findUserById(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
 
-    const updateUserUseCase = new FindUserByIdUseCase(
+    const findUserByIdUseCase = new FindUserByIdUseCase(
       prismaUsersRepository,
     );
 
     const { id } = request.params;
 
-    const user = await updateUserUseCase.execute({ id: Number(id) });
+    const user = await findUserByIdUseCase.execute({ id: Number(id) });
 
     return response.json(user);
   }
