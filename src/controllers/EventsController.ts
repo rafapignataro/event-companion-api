@@ -1,0 +1,82 @@
+import { Request, Response } from 'express';
+
+import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
+
+import { CreateEventUseCase } from '../useCases/events/create-event-use-case';
+import { UpdateEventUseCase } from '../useCases/events/update-event-use-case';
+import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-case';
+import { FindEventByIdUseCase } from '../useCases/events/find-event-by-id-use-case';
+
+export class EventsController {
+  public async createEvent(request: Request, response: Response): Promise<Response> {
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const createEventUseCase = new CreateEventUseCase(
+      prismaEventsRepository,
+    );
+
+    const {
+      name, startDate, endDate, logoURL, eventCategoryId,
+    } = request.body;
+
+    const event = await createEventUseCase.execute({
+      name, startDate, endDate, logoURL, eventCategoryId,
+    });
+
+    return response.json(event);
+  }
+
+  public async updateEvent(request: Request, response: Response): Promise<Response> {
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const updateEventUseCase = new UpdateEventUseCase(
+      prismaEventsRepository,
+    );
+
+    const { id } = request.params;
+    const {
+      name,
+      startDate,
+      endDate,
+      logoURL,
+      eventCategoryId,
+    } = request.body;
+
+    await updateEventUseCase.execute({
+      id: Number(id),
+      name,
+      startDate,
+      endDate,
+      logoURL,
+      eventCategoryId,
+    });
+
+    return response.json();
+  }
+
+  public async findEventById(request: Request, response: Response): Promise<Response> {
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const findEventByIdUseCase = new FindEventByIdUseCase(
+      prismaEventsRepository,
+    );
+
+    const { id } = request.params;
+
+    const event = await findEventByIdUseCase.execute({ id: Number(id) });
+
+    return response.json(event);
+  }
+
+  public async findAllEvents(request: Request, response: Response): Promise<Response> {
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const findAllEventsUseCase = new FindAllEventsUseCase(
+      prismaEventsRepository,
+    );
+
+    const events = await findAllEventsUseCase.execute();
+
+    return response.json(events);
+  }
+}
