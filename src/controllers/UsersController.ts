@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 
-import { AuthenticateUserUseCase } from '../useCases/users/authenticate-user-use-case';
-
 import { JwtUserTokenProvider } from '../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
+
 import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
+
+import { AuthenticateUserUseCase } from '../useCases/users/authenticate-user-use-case';
 import { CreateUserUseCase } from '../useCases/users/create-user-use-case';
 import { UpdateUserUseCase } from '../useCases/users/update-user-use-case';
 import { FindAllUsersUseCase } from '../useCases/users/find-all-users-use-case';
