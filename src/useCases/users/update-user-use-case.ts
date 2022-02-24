@@ -21,7 +21,7 @@ export class UpdateUserUseCase {
     if (!user) {
       throw new APIError({
         code: 500,
-        message: 'This user does not exists.',
+        message: 'This user does not exist.',
       });
     }
 

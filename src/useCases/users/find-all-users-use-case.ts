@@ -8,8 +8,8 @@ export class FindAllUsersUseCase {
   ) {}
 
   public async execute(): Promise<User[]> {
-    const user = await this.usersRepository.findUsers();
+    const users = await this.usersRepository.findUsers();
 
-    return user;
+    return users;
   }
 }
