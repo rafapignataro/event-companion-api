@@ -20,7 +20,7 @@ export class UpdateUserPasswordUseCase {
 
   public async execute({
     id, oldPassword, newPassword, newPasswordRepeated,
-  }: UpdateUserPasswordRequest): Promise<User> {
+  }: UpdateUserPasswordRequest): Promise<void> {
     const user = await this.usersRepository.findUserByID(id);
 
     if (!user) {
@@ -30,7 +30,9 @@ export class UpdateUserPasswordUseCase {
       });
     }
 
-    if (user.password !== oldPassword) {
+    const isPasswordCorrect = await this.hashProvider.compare(oldPassword, user.password);
+
+    if (!isPasswordCorrect) {
       throw new APIError({
         code: 500,
         message: 'The old password is not correct.',
@@ -44,7 +46,7 @@ export class UpdateUserPasswordUseCase {
       });
     }
 
-    if (newPassword.length > 6) {
+    if (newPassword.length < 6) {
       throw new APIError({
         code: 500,
         message: 'The password must have more than 6 letters.',
@@ -53,7 +55,7 @@ export class UpdateUserPasswordUseCase {
 
     const passwordHash = await this.hashProvider.create(newPassword);
 
-    return this.usersRepository.updatePassword(id, {
+    await this.usersRepository.updatePassword(id, {
       password: passwordHash,
     });
   }

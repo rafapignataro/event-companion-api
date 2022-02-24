@@ -1,42 +1,15 @@
-import { APIError } from '../../helpers/Error';
+import { User } from '@prisma/client';
 
 import { UsersRepository } from '../../repositories/users/UsersRepository';
 
-type UpdateUserRequest = {
-  id: number;
-  email: string;
-  name: string
-}
-
-export class UpdateUserUseCase {
+export class FindAllUsersUseCase {
   constructor(
     private usersRepository: UsersRepository,
   ) {}
 
-  public async execute({
-    id, email, name,
-  }: UpdateUserRequest): Promise<void> {
-    const user = await this.usersRepository.findUserByID(id);
+  public async execute(): Promise<User[]> {
+    const user = await this.usersRepository.findUsers();
 
-    if (!user) {
-      throw new APIError({
-        code: 500,
-        message: 'This user does not exists.',
-      });
-    }
-
-    const userEmailAlreadyExists = await this.usersRepository.findUserByEmail(email);
-
-    if (userEmailAlreadyExists && userEmailAlreadyExists.id !== id) {
-      throw new APIError({
-        code: 500,
-        message: 'This email is already in use.',
-      });
-    }
-
-    await this.usersRepository.updateUser(id, {
-      name,
-      email,
-    });
+    return user;
   }
 }

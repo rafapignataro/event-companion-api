@@ -1,7 +1,6 @@
 import { APIError } from '../../helpers/Error';
 
 import { UserTokenProvider } from '../../providers/userTokenProvider/UserTokenProvider';
-import { UsersRepository } from '../../repositories/UsersRepository';
 
 type EnsureUserAuthenticatedRequest = {
   token: string
@@ -9,7 +8,6 @@ type EnsureUserAuthenticatedRequest = {
 
 export class EnsureUserAuthenticatedUseCase {
   constructor(
-    private usersRepository: UsersRepository,
     private userTokenProvider: UserTokenProvider,
   ) {}
 
