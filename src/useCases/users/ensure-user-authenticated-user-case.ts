@@ -17,16 +17,16 @@ export class EnsureUserAuthenticatedUseCase {
     if (!token) {
       throw new APIError({
         code: 401,
-        message: 'Token is missing.',
+        message: 'Not authenticated.',
       });
     }
 
-    try {
-      this.userTokenProvider.validate(token);
-    } catch {
+    const isAuthenticated = await this.userTokenProvider.validate(token);
+
+    if (!isAuthenticated) {
       throw new APIError({
         code: 401,
-        message: 'Token is invalid.',
+        message: 'Not authenticated.',
       });
     }
   }
