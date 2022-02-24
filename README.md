@@ -1,7 +1,3 @@
-# event-companion-api
-API made for my Graduation Completion of Course Work: Event Companion
-The API for my Completion of Course Work: Event Companion
-
 <br />
 <a href="">
   <h1>Event Companion API</h1>
