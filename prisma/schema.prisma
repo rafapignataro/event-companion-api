@@ -1,0 +1,216 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(255)
+  email    String @db.VarChar(255)
+  password String @db.VarChar(255)
+
+  Admin    Admin?
+  Brand    Brand?
+  Customer Customer?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("users")
+}
+
+model Customer {
+  id          Int    @id @default(autoincrement())
+  avatarColor String @db.VarChar(255)
+  status      String @db.VarChar(255)
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  Friends          Friendship[] @relation()
+  friendsRelations Friendship[] @relation("friend_customers")
+  Insignias        Insignia[]
+  Visitors         Visitor[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("customers")
+}
+
+model Admin {
+  id Int @id @default(autoincrement())
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  Festival   Event? @relation(fields: [festivalId], references: [id])
+  festivalId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("admins")
+}
+
+model Brand {
+  id Int @id @default(autoincrement())
+
+  User   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  Festival   Event? @relation(fields: [festivalId], references: [id])
+  festivalId Int?
+
+  Locations Location[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("brands")
+}
+
+model Visitor {
+  id Int @id @default(autoincrement())
+
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
+  Festival   Event?    @relation(fields: [festivalId], references: [id])
+  festivalId Int?
+
+  Markers Marker[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("visitors")
+}
+
+model Friendship {
+  id     Int    @id @default(autoincrement())
+  status String @db.VarChar(255)
+
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
+
+  Friend   Customer? @relation("friend_customers", fields: [friendId], references: [id])
+  friendId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("friendships")
+}
+
+model Insignia {
+  id          Int       @id @default(autoincrement())
+  rarity      String    @db.VarChar(255)
+  description String    @db.VarChar(255)
+  obtainedAt  DateTime?
+
+  User       Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("insignias")
+}
+
+model Event {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  startDate DateTime
+  endDate   DateTime
+  logo_url  String   @db.VarChar(255)
+  category  String   @db.VarChar(255)
+
+  Visitors  Visitor[]
+  Markers   Marker[]
+  Admins    Admin[]
+  Brands    Brand[]
+  Locations Location[]
+
+  EventCategory   EventCategory? @relation(fields: [eventCategoryId], references: [id])
+  eventCategoryId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("events")
+}
+
+model EventCategory {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+
+  Events Event[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("event_categories")
+}
+
+model Marker {
+  id        Int    @id @default(autoincrement())
+  latitude  String
+  longitude String
+
+  Visitor   Visitor? @relation(fields: [visitorId], references: [id])
+  visitorId Int?
+
+  Festival   Event? @relation(fields: [festivalId], references: [id])
+  festivalId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("markers")
+}
+
+model Location {
+  id        Int    @id @default(autoincrement())
+  name      String @db.VarChar(255)
+  latitude  String
+  longitude String
+
+  Events Activation[]
+
+  Festival   Event? @relation(fields: [festivalId], references: [id])
+  festivalId Int?
+
+  Brand   Brand? @relation(fields: [brandId], references: [id])
+  brandId Int?
+
+  LocationCategory   LocationCategory? @relation(fields: [locationCategoryId], references: [id])
+  locationCategoryId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("locations")
+}
+
+model LocationCategory {
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  description String @db.VarChar(255)
+
+  locations Location[]
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("location_categories")
+}
+
+model Activation {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  startDate   DateTime
+  endDate     DateTime
+
+  Location   Location? @relation(fields: [locationId], references: [id])
+  locationId Int?
+
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@map("activations")
+}
