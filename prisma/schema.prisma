@@ -49,8 +49,8 @@ model Admin {
   User   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  Festival   Event? @relation(fields: [festivalId], references: [id])
-  festivalId Int?
+  Festival   Event @relation(fields: [festivalId], references: [id])
+  festivalId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -63,8 +63,8 @@ model Brand {
   User   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  Festival   Event? @relation(fields: [festivalId], references: [id])
-  festivalId Int?
+  Festival   Event @relation(fields: [festivalId], references: [id])
+  festivalId Int
 
   Locations Location[]
 
@@ -76,10 +76,10 @@ model Brand {
 model Visitor {
   id Int @id @default(autoincrement())
 
-  Customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId Int?
-  Festival   Event?    @relation(fields: [festivalId], references: [id])
-  festivalId Int?
+  Customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  Festival   Event    @relation(fields: [festivalId], references: [id])
+  festivalId Int
 
   Markers Marker[]
 
@@ -92,11 +92,11 @@ model Friendship {
   id     Int    @id @default(autoincrement())
   status String @db.VarChar(255)
 
-  Customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId Int?
+  Customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
 
-  Friend   Customer? @relation("friend_customers", fields: [friendId], references: [id])
-  friendId Int?
+  Friend   Customer @relation("friend_customers", fields: [friendId], references: [id])
+  friendId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -122,8 +122,7 @@ model Event {
   name      String   @db.VarChar(255)
   startDate DateTime
   endDate   DateTime
-  logo_url  String   @db.VarChar(255)
-  category  String   @db.VarChar(255)
+  logoURL   String?  @db.VarChar(255)
 
   Visitors  Visitor[]
   Markers   Marker[]
@@ -131,8 +130,8 @@ model Event {
   Brands    Brand[]
   Locations Location[]
 
-  EventCategory   EventCategory? @relation(fields: [eventCategoryId], references: [id])
-  eventCategoryId Int?
+  EventCategory   EventCategory @relation(fields: [eventCategoryId], references: [id])
+  eventCategoryId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -155,11 +154,11 @@ model Marker {
   latitude  String
   longitude String
 
-  Visitor   Visitor? @relation(fields: [visitorId], references: [id])
-  visitorId Int?
+  Visitor   Visitor @relation(fields: [visitorId], references: [id])
+  visitorId Int
 
-  Festival   Event? @relation(fields: [festivalId], references: [id])
-  festivalId Int?
+  Festival   Event @relation(fields: [festivalId], references: [id])
+  festivalId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -174,14 +173,14 @@ model Location {
 
   Events Activation[]
 
-  Festival   Event? @relation(fields: [festivalId], references: [id])
-  festivalId Int?
+  Festival   Event @relation(fields: [festivalId], references: [id])
+  festivalId Int
 
-  Brand   Brand? @relation(fields: [brandId], references: [id])
-  brandId Int?
+  Brand   Brand @relation(fields: [brandId], references: [id])
+  brandId Int
 
-  LocationCategory   LocationCategory? @relation(fields: [locationCategoryId], references: [id])
-  locationCategoryId Int?
+  LocationCategory   LocationCategory @relation(fields: [locationCategoryId], references: [id])
+  locationCategoryId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -207,8 +206,8 @@ model Activation {
   startDate   DateTime
   endDate     DateTime
 
-  Location   Location? @relation(fields: [locationId], references: [id])
-  locationId Int?
+  Location   Location @relation(fields: [locationId], references: [id])
+  locationId Int
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
