@@ -2,11 +2,11 @@ import { Brand } from '@prisma/client';
 
 export type CreateBrandDTO = {
   userId: number;
-  festivalId: number;
+  eventId: number;
 }
 
 export type UpdateBrandDTO = {
-  festivalId: number;
+  eventId: number;
 }
 
 export interface BrandsRepository {

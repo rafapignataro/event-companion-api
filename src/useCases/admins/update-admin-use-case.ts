@@ -1,19 +1,21 @@
 import { APIError } from '../../helpers/Error';
 
 import { AdminsRepository } from '../../repositories/admins/AdminsRepository';
+import { EventsRepository } from '../../repositories/events/EventsRepository';
 
 type UpdateAdminRequest = {
   id: number;
-  festivalId: number;
+  eventId: number;
 }
 
 export class UpdateAdminUseCase {
   constructor(
     private adminsRepository: AdminsRepository,
+    private eventsRepository: EventsRepository,
   ) {}
 
   public async execute({
-    id, festivalId,
+    id, eventId,
   }: UpdateAdminRequest): Promise<void> {
     const admin = await this.adminsRepository.findById(id);
 
@@ -24,8 +26,17 @@ export class UpdateAdminUseCase {
       });
     }
 
+    const event = await this.eventsRepository.findById(eventId);
+
+    if (!event) {
+      throw new APIError({
+        code: 500,
+        message: 'This event does not exist.',
+      });
+    }
+
     await this.adminsRepository.update(id, {
-      festivalId,
+      eventId,
     });
   }
 }

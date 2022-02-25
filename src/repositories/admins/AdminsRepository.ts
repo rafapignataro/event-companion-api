@@ -2,11 +2,11 @@ import { Admin } from '@prisma/client';
 
 export type CreateAdminDTO = {
   userId: number;
-  festivalId: number;
+  eventId: number;
 }
 
 export type UpdateAdminDTO = {
-  festivalId: number;
+  eventId: number;
 }
 
 export interface AdminsRepository {

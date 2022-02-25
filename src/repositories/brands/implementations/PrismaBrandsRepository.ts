@@ -11,13 +11,20 @@ export class PrismaBrandsRepository implements BrandsRepository {
       where: {
         id,
       },
+      include: {
+        User: true,
+      },
     });
 
     return brand;
   }
 
   public async findAll(): Promise<Brand[]> {
-    const brands = await prisma.brand.findMany();
+    const brands = await prisma.brand.findMany({
+      include: {
+        User: true,
+      },
+    });
 
     return brands;
   }

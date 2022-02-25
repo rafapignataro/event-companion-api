@@ -11,13 +11,20 @@ export class PrismaAdminsRepository implements AdminsRepository {
       where: {
         id,
       },
+      include: {
+        User: true,
+      },
     });
 
     return admin;
   }
 
   public async findAll(): Promise<Admin[]> {
-    const admins = await prisma.admin.findMany();
+    const admins = await prisma.admin.findMany({
+      include: {
+        User: true,
+      },
+    });
 
     return admins;
   }
