@@ -12,14 +12,14 @@ userRoutes.post('/authenticate', usersController.authenticate);
 
 userRoutes.use(ensureAuthenticated);
 
-userRoutes.post('/', usersController.createUser);
+userRoutes.post('/', usersController.create);
 
-userRoutes.put('/:id/password', usersController.updateUserPassword);
+userRoutes.put('/:id/password', usersController.updatePassword);
 
-userRoutes.put('/:id', usersController.updateUser);
+userRoutes.put('/:id', usersController.update);
 
-userRoutes.get('/:id', usersController.findUserById);
+userRoutes.get('/:id', usersController.findById);
 
-userRoutes.get('/', usersController.findAllUsers);
+userRoutes.get('/', usersController.findAll);
 
 export { userRoutes };

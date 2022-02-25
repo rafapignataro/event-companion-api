@@ -31,7 +31,7 @@ export class UsersController {
     return response.json({ token, user });
   }
 
-  public async createUser(request: Request, response: Response): Promise<Response> {
+  public async create(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
     const bcryptHashProvider = new BCryptHashProvider();
 
@@ -47,7 +47,7 @@ export class UsersController {
     return response.json(user);
   }
 
-  public async updateUser(request: Request, response: Response): Promise<Response> {
+  public async update(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
 
     const updateUserUseCase = new UpdateUserUseCase(
@@ -62,7 +62,7 @@ export class UsersController {
     return response.json();
   }
 
-  public async updateUserPassword(request: Request, response: Response): Promise<Response> {
+  public async updatePassword(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
     const bcryptHashProvider = new BCryptHashProvider();
 
@@ -81,7 +81,7 @@ export class UsersController {
     return response.json();
   }
 
-  public async findUserById(request: Request, response: Response): Promise<Response> {
+  public async findById(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
 
     const findUserByIdUseCase = new FindUserByIdUseCase(
@@ -95,7 +95,7 @@ export class UsersController {
     return response.json(user);
   }
 
-  public async findAllUsers(request: Request, response: Response): Promise<Response> {
+  public async findAll(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository();
 
     const findAllUsersUseCase = new FindAllUsersUseCase(

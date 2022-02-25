@@ -10,12 +10,12 @@ const eventsRoutes = Router();
 
 eventsRoutes.use(ensureAuthenticated);
 
-eventsRoutes.post('/', eventsController.createEvent);
+eventsRoutes.post('/', eventsController.create);
 
-eventsRoutes.put('/:id', eventsController.updateEvent);
+eventsRoutes.put('/:id', eventsController.update);
 
-eventsRoutes.get('/:id', eventsController.findEventById);
+eventsRoutes.get('/:id', eventsController.findById);
 
-eventsRoutes.get('/', eventsController.findAllEvents);
+eventsRoutes.get('/', eventsController.findAll);
 
 export { eventsRoutes };
