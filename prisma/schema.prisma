@@ -28,14 +28,12 @@ model User {
 model Customer {
   id          Int    @id @default(autoincrement())
   avatarColor String @db.VarChar(255)
-  status      String @db.VarChar(255)
 
   User   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
   Friends          Friendship[] @relation()
   friendsRelations Friendship[] @relation("friend_customers")
-  Insignias        Insignia[]
   Visitors         Visitor[]
 
   updatedAt DateTime @updatedAt
@@ -74,7 +72,8 @@ model Brand {
 }
 
 model Visitor {
-  id Int @id @default(autoincrement())
+  id     Int    @id @default(autoincrement())
+  status String @db.VarChar(255)
 
   Customer   Customer @relation(fields: [customerId], references: [id])
   customerId Int
@@ -101,20 +100,6 @@ model Friendship {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
   @@map("friendships")
-}
-
-model Insignia {
-  id          Int       @id @default(autoincrement())
-  rarity      String    @db.VarChar(255)
-  description String    @db.VarChar(255)
-  obtainedAt  DateTime?
-
-  User       Customer? @relation(fields: [customerId], references: [id])
-  customerId Int?
-
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-  @@map("insignias")
 }
 
 model Event {
