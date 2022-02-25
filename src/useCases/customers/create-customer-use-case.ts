@@ -6,7 +6,7 @@ import { CustomersRepository } from '../../repositories/customers/CustomersRepos
 
 type CreateCustomerRequest = {
   userId: number;
-  avatarColor: string;
+  avatarColor?: string;
 }
 
 export class CreateCustomerUseCase {
@@ -28,18 +28,20 @@ export class CreateCustomerUseCase {
       });
     }
 
-    const isAvatarColorCorrect = avatarColor.length === 7 && avatarColor.includes('#');
+    if (avatarColor) {
+      const isAvatarColorCorrect = avatarColor.length === 7 && avatarColor.includes('#');
 
-    if (!isAvatarColorCorrect) {
-      throw new APIError({
-        code: 500,
-        message: 'The avatar color passed is wrong. Ex.: #123456',
-      });
+      if (!isAvatarColorCorrect) {
+        throw new APIError({
+          code: 500,
+          message: 'The avatar color passed is wrong. Ex.: #123456',
+        });
+      }
     }
 
     const customer = await this.customersRepository.create({
       userId,
-      avatarColor,
+      avatarColor: avatarColor || '#FF59BC',
     });
 
     return customer;

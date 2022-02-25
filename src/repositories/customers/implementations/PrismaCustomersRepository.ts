@@ -11,13 +11,20 @@ export class PrismaCustomersRepository implements CustomersRepository {
       where: {
         id,
       },
+      include: {
+        User: true,
+      },
     });
 
     return customer;
   }
 
   public async findAll(): Promise<Customer[]> {
-    const customers = await prisma.customer.findMany();
+    const customers = await prisma.customer.findMany({
+      include: {
+        User: true,
+      },
+    });
 
     return customers;
   }
