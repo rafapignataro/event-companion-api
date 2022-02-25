@@ -4,8 +4,8 @@ import { PrismaEventsRepository } from '../repositories/events/implementations/P
 
 import { CreateEventUseCase } from '../useCases/events/create-event-use-case';
 import { UpdateEventUseCase } from '../useCases/events/update-event-use-case';
-import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-case';
 import { FindEventByIdUseCase } from '../useCases/events/find-event-by-id-use-case';
+import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-case';
 
 export class EventsController {
   public async create(request: Request, response: Response): Promise<Response> {

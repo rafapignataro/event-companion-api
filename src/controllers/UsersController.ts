@@ -8,9 +8,9 @@ import { PrismaUsersRepository } from '../repositories/users/implementations/Pri
 import { AuthenticateUserUseCase } from '../useCases/users/authenticate-user-use-case';
 import { CreateUserUseCase } from '../useCases/users/create-user-use-case';
 import { UpdateUserUseCase } from '../useCases/users/update-user-use-case';
-import { FindAllUsersUseCase } from '../useCases/users/find-all-users-use-case';
-import { FindUserByIdUseCase } from '../useCases/users/find-user-by-id-use-case';
 import { UpdateUserPasswordUseCase } from '../useCases/users/update-user-password-use-case';
+import { FindUserByIdUseCase } from '../useCases/users/find-user-by-id-use-case';
+import { FindAllUsersUseCase } from '../useCases/users/find-all-users-use-case';
 
 export class UsersController {
   public async authenticate(request: Request, response: Response): Promise<Response> {
