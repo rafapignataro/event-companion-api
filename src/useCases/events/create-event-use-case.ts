@@ -24,7 +24,7 @@ export class CreateEventUseCase {
   }: CreateEventRequest): Promise<Event> {
     // TODO: Compare dates;
 
-    const event = await this.eventsRepository.createEvent({
+    const event = await this.eventsRepository.create({
       name,
       startDate,
       endDate,

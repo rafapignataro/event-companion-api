@@ -16,7 +16,7 @@ export class UpdateUserUseCase {
   public async execute({
     id, email, name,
   }: UpdateUserRequest): Promise<void> {
-    const user = await this.usersRepository.findUserByID(id);
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new APIError({
@@ -25,7 +25,7 @@ export class UpdateUserUseCase {
       });
     }
 
-    const userEmailAlreadyExists = await this.usersRepository.findUserByEmail(email);
+    const userEmailAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userEmailAlreadyExists && userEmailAlreadyExists.id !== id) {
       throw new APIError({
@@ -34,7 +34,7 @@ export class UpdateUserUseCase {
       });
     }
 
-    await this.usersRepository.updateUser(id, {
+    await this.usersRepository.update(id, {
       name,
       email,
     });

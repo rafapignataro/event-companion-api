@@ -16,17 +16,17 @@ export type UpdatePasswordDTO = {
 }
 
 export interface UsersRepository {
-  findUserByID(id: number): Promise<User>
+  findById(id: number): Promise<User>
 
-  findUserByEmail(email: string): Promise<User>
+  findByEmail(email: string): Promise<User>
 
-  findUsers(): Promise<User[]>
+  findAll(): Promise<User[]>
 
-  createUser(data: CreateUserDTO): Promise<User>
+  create(data: CreateUserDTO): Promise<User>
 
-  updateUser(id: number, data: UpdateUserDTO): Promise<User>
+  update(id: number, data: UpdateUserDTO): Promise<User>
 
   updatePassword(id: number, data: UpdatePasswordDTO): Promise<User>
 
-  deleteUser(id: number): Promise<void>
+  delete(id: number): Promise<void>
 }

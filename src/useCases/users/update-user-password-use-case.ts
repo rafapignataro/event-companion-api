@@ -21,7 +21,7 @@ export class UpdateUserPasswordUseCase {
   public async execute({
     id, oldPassword, newPassword, newPasswordRepeated,
   }: UpdateUserPasswordRequest): Promise<void> {
-    const user = await this.usersRepository.findUserByID(id);
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new APIError({

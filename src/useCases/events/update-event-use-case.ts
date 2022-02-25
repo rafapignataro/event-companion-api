@@ -24,7 +24,7 @@ export class UpdateEventUseCase {
     logoURL,
     eventCategoryId,
   }: UpdateEventRequest): Promise<void> {
-    const event = await this.eventsRepository.findEventByID(id);
+    const event = await this.eventsRepository.findById(id);
 
     if (!event) {
       throw new APIError({
@@ -33,7 +33,7 @@ export class UpdateEventUseCase {
       });
     }
 
-    await this.eventsRepository.updateEvent(id, {
+    await this.eventsRepository.update(id, {
       name,
       startDate,
       endDate,

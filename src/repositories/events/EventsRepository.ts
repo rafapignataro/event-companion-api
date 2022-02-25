@@ -17,13 +17,13 @@ export type UpdateEventDTO = {
 }
 
 export interface EventsRepository {
-  findEventByID(id: number): Promise<Event>
+  findById(id: number): Promise<Event>
 
-  findEvents(): Promise<Event[]>
+  findAll(): Promise<Event[]>
 
-  createEvent(data: CreateEventDTO): Promise<Event>
+  create(data: CreateEventDTO): Promise<Event>
 
-  updateEvent(id: number, data: UpdateEventDTO): Promise<Event>
+  update(id: number, data: UpdateEventDTO): Promise<Event>
 
-  deleteEvent(id: number): Promise<void>
+  delete(id: number): Promise<void>
 }

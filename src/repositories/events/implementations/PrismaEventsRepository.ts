@@ -6,7 +6,7 @@ import {
 } from '../EventsRepository';
 
 export class PrismaEventsRepository implements EventsRepository {
-  public async findEventByID(id: number): Promise<Event> {
+  public async findById(id: number): Promise<Event> {
     const event = await prisma.event.findUnique({
       where: {
         id,
@@ -16,13 +16,13 @@ export class PrismaEventsRepository implements EventsRepository {
     return event;
   }
 
-  public async findEvents(): Promise<Event[]> {
+  public async findAll(): Promise<Event[]> {
     const events = await prisma.event.findMany();
 
     return events;
   }
 
-  public async createEvent(data: CreateEventDTO): Promise<Event> {
+  public async create(data: CreateEventDTO): Promise<Event> {
     const event = await prisma.event.create({
       data,
     });
@@ -30,7 +30,7 @@ export class PrismaEventsRepository implements EventsRepository {
     return event;
   }
 
-  public async updateEvent(id: number, data: UpdateEventDTO): Promise<Event> {
+  public async update(id: number, data: UpdateEventDTO): Promise<Event> {
     const event = await prisma.event.update({
       where: {
         id,
@@ -41,7 +41,7 @@ export class PrismaEventsRepository implements EventsRepository {
     return event;
   }
 
-  public async deleteEvent(id: number): Promise<void> {
+  public async delete(id: number): Promise<void> {
     await prisma.event.delete({
       where: {
         id,

@@ -8,7 +8,7 @@ export class FindAllUsersUseCase {
   ) {}
 
   public async execute(): Promise<User[]> {
-    const users = await this.usersRepository.findUsers();
+    const users = await this.usersRepository.findAll();
 
     return users;
   }

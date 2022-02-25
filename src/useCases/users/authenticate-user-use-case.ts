@@ -27,7 +27,7 @@ export class AuthenticateUserUseCase {
   public async execute({
     email, password,
   }: AuthenticateUserRequest): Promise<AuthenticateUserResponse> {
-    const user = await this.usersRepository.findUserByEmail(email);
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new APIError({

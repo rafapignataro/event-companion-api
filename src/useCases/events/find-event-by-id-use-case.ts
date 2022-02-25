@@ -16,7 +16,7 @@ export class FindEventByIdUseCase {
   public async execute({
     id,
   }: FindEventByIdRequest): Promise<Event> {
-    const event = await this.eventsRepository.findEventByID(id);
+    const event = await this.eventsRepository.findById(id);
 
     if (!event) {
       throw new APIError({

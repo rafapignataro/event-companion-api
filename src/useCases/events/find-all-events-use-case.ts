@@ -8,7 +8,7 @@ export class FindAllEventsUseCase {
   ) {}
 
   public async execute(): Promise<Event[]> {
-    const events = await this.eventsRepository.findEvents();
+    const events = await this.eventsRepository.findAll();
 
     return events;
   }

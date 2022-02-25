@@ -6,7 +6,7 @@ import {
 } from '../UsersRepository';
 
 export class PrismaUsersRepository implements UsersRepository {
-  public async findUserByID(id: number): Promise<User> {
+  public async findById(id: number): Promise<User> {
     const user = await prisma.user.findUnique({
       where: {
         id,
@@ -16,7 +16,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user;
   }
 
-  public async findUserByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User> {
     const user = await prisma.user.findFirst({
       where: {
         email,
@@ -26,13 +26,13 @@ export class PrismaUsersRepository implements UsersRepository {
     return user;
   }
 
-  public async findUsers(): Promise<User[]> {
+  public async findAll(): Promise<User[]> {
     const users = await prisma.user.findMany();
 
     return users;
   }
 
-  public async createUser(data: CreateUserDTO): Promise<User> {
+  public async create(data: CreateUserDTO): Promise<User> {
     const user = await prisma.user.create({
       data,
     });
@@ -40,7 +40,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user;
   }
 
-  public async updateUser(id: number, data: UpdateUserDTO): Promise<User> {
+  public async update(id: number, data: UpdateUserDTO): Promise<User> {
     const user = await prisma.user.update({
       where: {
         id,
@@ -62,7 +62,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user;
   }
 
-  public async deleteUser(id: number): Promise<void> {
+  public async delete(id: number): Promise<void> {
     await prisma.user.delete({
       where: {
         id,

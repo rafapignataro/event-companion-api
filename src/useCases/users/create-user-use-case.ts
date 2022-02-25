@@ -19,7 +19,7 @@ export class CreateUserUseCase {
   public async execute({
     email, name, password,
   }: CreateUserRequest): Promise<User> {
-    const userAlreadyExists = await this.usersRepository.findUserByEmail(email);
+    const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {
       throw new APIError({
@@ -37,7 +37,7 @@ export class CreateUserUseCase {
 
     const passwordHash = await this.hashProvider.create(password);
 
-    const user = await this.usersRepository.createUser({
+    const user = await this.usersRepository.create({
       email,
       name,
       password: passwordHash,

@@ -16,7 +16,7 @@ export class FindUserByIdUseCase {
   public async execute({
     id,
   }: FindUserByIdRequest): Promise<User> {
-    const user = await this.usersRepository.findUserByID(id);
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new APIError({
