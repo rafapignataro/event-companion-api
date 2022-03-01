@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
 
 import { CreateEventUseCase } from '../useCases/events/create-event-use-case';

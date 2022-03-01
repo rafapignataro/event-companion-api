@@ -1,21 +1,25 @@
 import { Friendship } from '@prisma/client';
 
 export type CreateFriendshipDTO = {
-  status: string;
   customerId: number;
   friendId: number;
+  status: string;
 }
 
 export type UpdateFriendshipDTO = {
   status: string;
-  customerId: number;
-  friendId: number;
+}
+
+export type QueryParamsDTO = {
+  customerId?: number
 }
 
 export interface FriendshipsRepository {
   findById(id: number): Promise<Friendship>
 
-  findAll(): Promise<Friendship[]>
+  findRelation(customerId: number, friendId: number): Promise<Friendship>
+
+  findAll(queryParams: QueryParamsDTO): Promise<Friendship[]>
 
   create(data: CreateFriendshipDTO): Promise<Friendship>
 

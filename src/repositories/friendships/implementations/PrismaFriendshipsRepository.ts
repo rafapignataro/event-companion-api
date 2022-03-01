@@ -3,7 +3,7 @@ import { Friendship, PrismaClient } from '@prisma/client';
 import { PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
-  FriendshipsRepository, CreateFriendshipDTO, UpdateFriendshipDTO,
+  FriendshipsRepository, CreateFriendshipDTO, UpdateFriendshipDTO, QueryParamsDTO,
 } from '../FriendshipsRepository';
 
 export class PrismaFriendshipsRepository implements FriendshipsRepository {
@@ -19,8 +19,33 @@ export class PrismaFriendshipsRepository implements FriendshipsRepository {
     return friendship;
   }
 
-  public async findAll(): Promise<Friendship[]> {
-    const friendships = await this.prismaClient.friendship.findMany();
+  public async findRelation(customerId: number, friendId: number): Promise<Friendship> {
+    const friendship = await this.prismaClient.friendship.findFirst({
+      where: {
+        customerId,
+        friendId,
+      },
+    });
+
+    return friendship;
+  }
+
+  public async findAll({ customerId }: QueryParamsDTO): Promise<Friendship[]> {
+    const friendships = await this.prismaClient.friendship.findMany({
+      where: {
+        customerId,
+      },
+    });
+
+    return friendships;
+  }
+
+  public async findAllByCustomerId(id: number): Promise<Friendship[]> {
+    const friendships = await this.prismaClient.friendship.findMany({
+      where: {
+        customerId: id,
+      },
+    });
 
     return friendships;
   }
