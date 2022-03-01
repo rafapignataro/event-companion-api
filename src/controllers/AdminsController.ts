@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
 import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
@@ -16,9 +18,9 @@ export class AdminsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const bcryptHashProvider = new BCryptHashProvider();
 
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const prismaEventsRepository = new PrismaEventsRepository();
-    const prismaAdminsRepository = new PrismaAdminsRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
 
     const {
       email, name, password, eventId,
@@ -43,8 +45,8 @@ export class AdminsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository();
-    const prismaEventsRepository = new PrismaEventsRepository();
+    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository(prisma);
 
     const updateAdminUseCase = new UpdateAdminUseCase(
       prismaAdminsRepository,
@@ -60,7 +62,7 @@ export class AdminsController {
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository();
+    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
 
     const findAdminByIdUseCase = new FindAdminByIdUseCase(
       prismaAdminsRepository,
@@ -74,7 +76,7 @@ export class AdminsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository();
+    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
 
     const findAllAdminsUseCase = new FindAllAdminsUseCase(
       prismaAdminsRepository,

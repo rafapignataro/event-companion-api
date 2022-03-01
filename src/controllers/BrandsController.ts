@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
 import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
@@ -16,9 +18,9 @@ export class BrandsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const bcryptHashProvider = new BCryptHashProvider();
 
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const prismaEventsRepository = new PrismaEventsRepository();
-    const prismaBrandsRepository = new PrismaBrandsRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaBrandsRepository = new PrismaBrandsRepository(prisma);
 
     const {
       email, name, password, eventId,
@@ -43,8 +45,8 @@ export class BrandsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaBrandsRepository = new PrismaBrandsRepository();
-    const prismaEventsRepository = new PrismaEventsRepository();
+    const prismaBrandsRepository = new PrismaBrandsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository(prisma);
 
     const updateBrandUseCase = new UpdateBrandUseCase(
       prismaBrandsRepository,
@@ -60,7 +62,7 @@ export class BrandsController {
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaBrandsRepository = new PrismaBrandsRepository();
+    const prismaBrandsRepository = new PrismaBrandsRepository(prisma);
 
     const findBrandByIdUseCase = new FindBrandByIdUseCase(
       prismaBrandsRepository,
@@ -74,7 +76,7 @@ export class BrandsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaBrandsRepository = new PrismaBrandsRepository();
+    const prismaBrandsRepository = new PrismaBrandsRepository(prisma);
 
     const findAllBrandsUseCase = new FindAllBrandsUseCase(
       prismaBrandsRepository,

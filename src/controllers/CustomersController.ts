@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
 import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
@@ -15,8 +17,8 @@ export class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const bcryptHashProvider = new BCryptHashProvider();
 
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
+    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
 
     const {
       email, name, password, avatarColor,
@@ -40,7 +42,7 @@ export class CustomersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
 
     const updateCustomerUseCase = new UpdateCustomerUseCase(
       prismaCustomersRepository,
@@ -55,7 +57,7 @@ export class CustomersController {
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
 
     const findCustomerByIdUseCase = new FindCustomerByIdUseCase(
       prismaCustomersRepository,
@@ -69,7 +71,7 @@ export class CustomersController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
 
     const findAllCustomersUseCase = new FindAllCustomersUseCase(
       prismaCustomersRepository,

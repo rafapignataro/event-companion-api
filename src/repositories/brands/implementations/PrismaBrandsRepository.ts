@@ -1,13 +1,14 @@
-import { Brand } from '@prisma/client';
-import { prisma } from '../../../infra/prisma';
+import { Brand, PrismaClient } from '@prisma/client';
 
 import {
   BrandsRepository, CreateBrandDTO, UpdateBrandDTO,
 } from '../BrandsRepository';
 
 export class PrismaBrandsRepository implements BrandsRepository {
+  constructor(private readonly prismaClient: PrismaClient) {}
+
   public async findById(id: number): Promise<Brand> {
-    const brand = await prisma.brand.findUnique({
+    const brand = await this.prismaClient.brand.findUnique({
       where: {
         id,
       },
@@ -20,7 +21,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
   }
 
   public async findAll(): Promise<Brand[]> {
-    const brands = await prisma.brand.findMany({
+    const brands = await this.prismaClient.brand.findMany({
       include: {
         User: true,
       },
@@ -30,7 +31,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
   }
 
   public async create(data: CreateBrandDTO): Promise<Brand> {
-    const brand = await prisma.brand.create({
+    const brand = await this.prismaClient.brand.create({
       data,
     });
 
@@ -38,7 +39,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
   }
 
   public async update(id: number, data: UpdateBrandDTO): Promise<Brand> {
-    const brand = await prisma.brand.update({
+    const brand = await this.prismaClient.brand.update({
       where: {
         id,
       },
@@ -49,7 +50,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await prisma.brand.delete({
+    await this.prismaClient.brand.delete({
       where: {
         id,
       },

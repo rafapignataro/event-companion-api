@@ -1,13 +1,14 @@
-import { Customer } from '@prisma/client';
-import { prisma } from '../../../infra/prisma';
+import { Customer, PrismaClient } from '@prisma/client';
 
 import {
   CustomersRepository, CreateCustomerDTO, UpdateCustomerDTO,
 } from '../CustomersRepository';
 
 export class PrismaCustomersRepository implements CustomersRepository {
+  constructor(private readonly prismaClient: PrismaClient) {}
+
   public async findById(id: number): Promise<Customer> {
-    const customer = await prisma.customer.findUnique({
+    const customer = await this.prismaClient.customer.findUnique({
       where: {
         id,
       },
@@ -20,7 +21,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   }
 
   public async findAll(): Promise<Customer[]> {
-    const customers = await prisma.customer.findMany({
+    const customers = await this.prismaClient.customer.findMany({
       include: {
         User: true,
       },
@@ -30,7 +31,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   }
 
   public async create(data: CreateCustomerDTO): Promise<Customer> {
-    const customer = await prisma.customer.create({
+    const customer = await this.prismaClient.customer.create({
       data,
     });
 
@@ -38,7 +39,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   }
 
   public async update(id: number, data: UpdateCustomerDTO): Promise<Customer> {
-    const customer = await prisma.customer.update({
+    const customer = await this.prismaClient.customer.update({
       where: {
         id,
       },
@@ -49,7 +50,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await prisma.customer.delete({
+    await this.prismaClient.customer.delete({
       where: {
         id,
       },

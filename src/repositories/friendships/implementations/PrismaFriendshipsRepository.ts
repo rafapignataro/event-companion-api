@@ -1,13 +1,14 @@
-import { Friendship } from '@prisma/client';
-import { prisma } from '../../../infra/prisma';
+import { Friendship, PrismaClient } from '@prisma/client';
 
 import {
   FriendshipsRepository, CreateFriendshipDTO, UpdateFriendshipDTO,
 } from '../FriendshipsRepository';
 
 export class PrismaFriendshipsRepository implements FriendshipsRepository {
+  constructor(private readonly prismaClient: PrismaClient) {}
+
   public async findById(id: number): Promise<Friendship> {
-    const friendship = await prisma.friendship.findUnique({
+    const friendship = await this.prismaClient.friendship.findUnique({
       where: {
         id,
       },
@@ -17,13 +18,13 @@ export class PrismaFriendshipsRepository implements FriendshipsRepository {
   }
 
   public async findAll(): Promise<Friendship[]> {
-    const friendships = await prisma.friendship.findMany();
+    const friendships = await this.prismaClient.friendship.findMany();
 
     return friendships;
   }
 
   public async create(data: CreateFriendshipDTO): Promise<Friendship> {
-    const friendship = await prisma.friendship.create({
+    const friendship = await this.prismaClient.friendship.create({
       data,
     });
 
@@ -31,7 +32,7 @@ export class PrismaFriendshipsRepository implements FriendshipsRepository {
   }
 
   public async update(id: number, data: UpdateFriendshipDTO): Promise<Friendship> {
-    const friendship = await prisma.friendship.update({
+    const friendship = await this.prismaClient.friendship.update({
       where: {
         id,
       },
@@ -42,7 +43,7 @@ export class PrismaFriendshipsRepository implements FriendshipsRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await prisma.friendship.delete({
+    await this.prismaClient.friendship.delete({
       where: {
         id,
       },

@@ -1,4 +1,4 @@
-import { Event } from '@prisma/client';
+import { Event, PrismaClient } from '@prisma/client';
 import { prisma } from '../../../infra/prisma';
 
 import {
@@ -6,8 +6,10 @@ import {
 } from '../EventsRepository';
 
 export class PrismaEventsRepository implements EventsRepository {
+  constructor(private readonly prismaClient: PrismaClient) {}
+
   public async findById(id: number): Promise<Event> {
-    const event = await prisma.event.findUnique({
+    const event = await this.prismaClient.event.findUnique({
       where: {
         id,
       },
@@ -17,13 +19,13 @@ export class PrismaEventsRepository implements EventsRepository {
   }
 
   public async findAll(): Promise<Event[]> {
-    const events = await prisma.event.findMany();
+    const events = await this.prismaClient.event.findMany();
 
     return events;
   }
 
   public async create(data: CreateEventDTO): Promise<Event> {
-    const event = await prisma.event.create({
+    const event = await this.prismaClient.event.create({
       data,
     });
 
@@ -31,7 +33,7 @@ export class PrismaEventsRepository implements EventsRepository {
   }
 
   public async update(id: number, data: UpdateEventDTO): Promise<Event> {
-    const event = await prisma.event.update({
+    const event = await this.prismaClient.event.update({
       where: {
         id,
       },
@@ -42,7 +44,7 @@ export class PrismaEventsRepository implements EventsRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await prisma.event.delete({
+    await this.prismaClient.event.delete({
       where: {
         id,
       },

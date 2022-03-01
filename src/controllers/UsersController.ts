@@ -14,7 +14,7 @@ import { FindAllUsersUseCase } from '../useCases/users/find-all-users-use-case';
 
 export class UsersController {
   public async authenticate(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
     const jwtUserTokenProvider = new JwtUserTokenProvider();
     const bcryptHashProvider = new BCryptHashProvider();
 
@@ -32,8 +32,8 @@ export class UsersController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const bcryptHashProvider = new BCryptHashProvider();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
+    const bcryptHashProvider = new BCryptHashProvider(prisma);
 
     const createUserUseCase = new CreateUserUseCase(
       prismaUsersRepository,
@@ -48,7 +48,7 @@ export class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
 
     const updateUserUseCase = new UpdateUserUseCase(
       prismaUsersRepository,
@@ -63,7 +63,7 @@ export class UsersController {
   }
 
   public async updatePassword(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
     const bcryptHashProvider = new BCryptHashProvider();
 
     const updateUserUseCase = new UpdateUserPasswordUseCase(
@@ -82,7 +82,7 @@ export class UsersController {
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
 
     const findUserByIdUseCase = new FindUserByIdUseCase(
       prismaUsersRepository,
@@ -96,7 +96,7 @@ export class UsersController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaUsersRepository = new PrismaUsersRepository();
+    const prismaUsersRepository = new PrismaUsersRepository(prisma);
 
     const findAllUsersUseCase = new FindAllUsersUseCase(
       prismaUsersRepository,

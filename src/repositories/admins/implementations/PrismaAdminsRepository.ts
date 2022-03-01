@@ -1,13 +1,14 @@
-import { Admin } from '@prisma/client';
-import { prisma } from '../../../infra/prisma';
+import { Admin, PrismaClient } from '@prisma/client';
 
 import {
   AdminsRepository, CreateAdminDTO, UpdateAdminDTO,
 } from '../AdminsRepository';
 
 export class PrismaAdminsRepository implements AdminsRepository {
+  constructor(private readonly prismaClient: PrismaClient) {}
+
   public async findById(id: number): Promise<Admin> {
-    const admin = await prisma.admin.findUnique({
+    const admin = await this.prismaClient.admin.findUnique({
       where: {
         id,
       },
@@ -20,7 +21,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
   }
 
   public async findAll(): Promise<Admin[]> {
-    const admins = await prisma.admin.findMany({
+    const admins = await this.prismaClient.admin.findMany({
       include: {
         User: true,
       },
@@ -30,7 +31,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
   }
 
   public async create(data: CreateAdminDTO): Promise<Admin> {
-    const admin = await prisma.admin.create({
+    const admin = await this.prismaClient.admin.create({
       data,
     });
 
@@ -38,7 +39,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
   }
 
   public async update(id: number, data: UpdateAdminDTO): Promise<Admin> {
-    const admin = await prisma.admin.update({
+    const admin = await this.prismaClient.admin.update({
       where: {
         id,
       },
@@ -49,7 +50,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await prisma.admin.delete({
+    await this.prismaClient.admin.delete({
       where: {
         id,
       },
