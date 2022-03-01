@@ -17,26 +17,28 @@ export class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const bcryptHashProvider = new BCryptHashProvider();
 
-    const prismaUsersRepository = new PrismaUsersRepository(prisma);
-    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
-
     const {
       email, name, password, avatarColor,
     } = request.body;
 
-    const createUserUseCase = new CreateUserUseCase(
-      prismaUsersRepository,
-      bcryptHashProvider,
-    );
+    const customer = await prisma.$transaction(async (prismaClient) => {
+      const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
+      const prismaCustomersRepository = new PrismaCustomersRepository(prismaClient);
 
-    const user = await createUserUseCase.execute({ email, name, password });
+      const createUserUseCase = new CreateUserUseCase(
+        prismaUsersRepository,
+        bcryptHashProvider,
+      );
 
-    const createCustomerUseCase = new CreateCustomerUseCase(
-      prismaUsersRepository,
-      prismaCustomersRepository,
-    );
+      const user = await createUserUseCase.execute({ email, name, password });
 
-    const customer = await createCustomerUseCase.execute({ userId: user.id, avatarColor });
+      const createCustomerUseCase = new CreateCustomerUseCase(
+        prismaUsersRepository,
+        prismaCustomersRepository,
+      );
+
+      return createCustomerUseCase.execute({ userId: user.id, avatarColor });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json(customer);
   }

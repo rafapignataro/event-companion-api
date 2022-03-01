@@ -1,11 +1,13 @@
 import { PrismaClient, User } from '@prisma/client';
 
+import { PrismaTransactionClient } from '../../../infra/prisma';
+
 import {
   UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO,
 } from '../UsersRepository';
 
 export class PrismaUsersRepository implements UsersRepository {
-  constructor(private readonly prismaClient: PrismaClient) {}
+  constructor(private readonly prismaClient: PrismaClient | PrismaTransactionClient) {}
 
   public async findById(id: number): Promise<User> {
     const user = await this.prismaClient.user.findUnique({

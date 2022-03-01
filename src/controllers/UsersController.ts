@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { JwtUserTokenProvider } from '../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
@@ -33,7 +35,7 @@ export class UsersController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const prismaUsersRepository = new PrismaUsersRepository(prisma);
-    const bcryptHashProvider = new BCryptHashProvider(prisma);
+    const bcryptHashProvider = new BCryptHashProvider();
 
     const createUserUseCase = new CreateUserUseCase(
       prismaUsersRepository,

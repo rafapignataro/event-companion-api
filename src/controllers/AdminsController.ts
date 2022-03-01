@@ -18,28 +18,30 @@ export class AdminsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const bcryptHashProvider = new BCryptHashProvider();
 
-    const prismaUsersRepository = new PrismaUsersRepository(prisma);
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
-    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
-
     const {
       email, name, password, eventId,
     } = request.body;
 
-    const createUserUseCase = new CreateUserUseCase(
-      prismaUsersRepository,
-      bcryptHashProvider,
-    );
+    const admin = await prisma.$transaction(async (prismaClient) => {
+      const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
+      const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
+      const prismaAdminsRepository = new PrismaAdminsRepository(prismaClient);
 
-    const user = await createUserUseCase.execute({ email, name, password });
+      const createUserUseCase = new CreateUserUseCase(
+        prismaUsersRepository,
+        bcryptHashProvider,
+      );
 
-    const createAdminUseCase = new CreateAdminUseCase(
-      prismaUsersRepository,
-      prismaEventsRepository,
-      prismaAdminsRepository,
-    );
+      const user = await createUserUseCase.execute({ email, name, password });
 
-    const admin = await createAdminUseCase.execute({ userId: user.id, eventId });
+      const createAdminUseCase = new CreateAdminUseCase(
+        prismaUsersRepository,
+        prismaEventsRepository,
+        prismaAdminsRepository,
+      );
+
+      return createAdminUseCase.execute({ userId: user.id, eventId });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json(admin);
   }
