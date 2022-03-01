@@ -8,7 +8,6 @@ export async function errorHandler(
   response: Response,
   next: NextFunction,
 ) {
-  console.log(error);
   return response.status(error.code || 500).json({
     status: 'Error',
     code: error.code,
