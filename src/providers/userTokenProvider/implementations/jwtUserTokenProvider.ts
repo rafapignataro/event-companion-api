@@ -12,7 +12,7 @@ export class JwtUserTokenProvider implements UserTokenProvider {
   public async create(data: CreateUserTokenData) {
     const token = sign(data, this.secretKey, {
       subject: String(data.id),
-      expiresIn: '30m',
+      expiresIn: '60m',
     });
 
     return token;
