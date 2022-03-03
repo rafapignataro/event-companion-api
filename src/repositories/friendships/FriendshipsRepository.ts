@@ -11,7 +11,7 @@ export type UpdateFriendshipDTO = {
 }
 
 export type QueryParamsDTO = {
-  customerId?: number
+  customerId?: number;
 }
 
 export interface FriendshipsRepository {
