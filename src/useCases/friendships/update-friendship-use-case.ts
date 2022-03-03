@@ -6,7 +6,7 @@ import { FriendshipsRepository } from '../../repositories/friendships/Friendship
 type UpdateFriendshipRequest = {
   customerId: number;
   friendId: number;
-  status: string;
+  status: 'NOT_ACCEPTED' | 'ACCEPTED' | 'REFUSED';
 }
 
 export class UpdateFriendshipUseCase {
@@ -20,6 +20,13 @@ export class UpdateFriendshipUseCase {
     friendId,
     status,
   }: UpdateFriendshipRequest): Promise<void> {
+    if (status !== 'NOT_ACCEPTED' && status !== 'ACCEPTED' && status !== 'REFUSED') {
+      throw new APIError({
+        code: 500,
+        message: 'This status does not exist.',
+      });
+    }
+
     const customerExists = await this.customersRepository.findById(customerId);
 
     if (!customerExists) {
