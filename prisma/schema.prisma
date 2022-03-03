@@ -73,8 +73,7 @@ model Brand {
 }
 
 model Visitor {
-  id     Int    @id @default(autoincrement())
-  status String @db.VarChar(255)
+  id Int @id @default(autoincrement())
 
   Customer   Customer @relation(fields: [customerId], references: [id])
   customerId Int
