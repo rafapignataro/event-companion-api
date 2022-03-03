@@ -3,11 +3,11 @@ import { Friendship } from '@prisma/client';
 export type CreateFriendshipDTO = {
   customerId: number;
   friendId: number;
-  status: string;
+  status: 'NOT_ACCEPTED' | 'ACCEPTED' | 'REFUSED';
 }
 
 export type UpdateFriendshipDTO = {
-  status: string;
+  status: 'NOT_ACCEPTED' | 'ACCEPTED' | 'REFUSED';
 }
 
 export type QueryParamsDTO = {
