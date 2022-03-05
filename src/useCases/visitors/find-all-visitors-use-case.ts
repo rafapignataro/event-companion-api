@@ -1,6 +1,6 @@
 import { Visitor } from '@prisma/client';
 
-import { VisitorsRepository } from '../../repositories/visitors/VisitorsRepository';
+import { VisitorsRepository } from '../../repositories/VisitorsRepository';
 
 type FindVisitorsRequest = {
   customerId?: number;

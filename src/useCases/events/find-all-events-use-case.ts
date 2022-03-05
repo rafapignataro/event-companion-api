@@ -1,6 +1,6 @@
 import { Event } from '@prisma/client';
 
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 export class FindAllEventsUseCase {
   constructor(

@@ -1,10 +1,8 @@
-import { Marker } from '@prisma/client';
-
 import { APIError } from '../../helpers/Error';
 
-import { VisitorsRepository } from '../../repositories/visitors/VisitorsRepository';
-import { MarkersRepository } from '../../repositories/markers/MarkersRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { VisitorsRepository } from '../../repositories/VisitorsRepository';
+import { MarkersRepository } from '../../repositories/MarkersRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type UpdateMarkerRequest = {
   visitorId: number;

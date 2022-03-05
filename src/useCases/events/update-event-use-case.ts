@@ -1,6 +1,6 @@
 import { APIError } from '../../helpers/Error';
 
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type UpdateEventRequest = {
   id: number;

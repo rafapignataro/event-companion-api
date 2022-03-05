@@ -4,9 +4,8 @@ import { APIError } from '../../helpers/Error';
 
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
-import { CustomersRepository } from '../../repositories/customers/CustomersRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { CustomersRepository } from '../../repositories/CustomersRepository';
 
 type CreateCustomerRequest = {
   name: string;

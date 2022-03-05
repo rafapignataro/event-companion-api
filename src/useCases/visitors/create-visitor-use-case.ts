@@ -2,9 +2,9 @@ import { Visitor } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { CustomersRepository } from '../../repositories/customers/CustomersRepository';
-import { VisitorsRepository } from '../../repositories/visitors/VisitorsRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { CustomersRepository } from '../../repositories/CustomersRepository';
+import { VisitorsRepository } from '../../repositories/VisitorsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type CreateVisitorRequest = {
   customerId: number;

@@ -1,6 +1,6 @@
 import { Brand } from '@prisma/client';
 
-import { BrandsRepository } from '../../repositories/brands/BrandsRepository';
+import { BrandsRepository } from '../../repositories/BrandsRepository';
 
 export class FindAllBrandsUseCase {
   constructor(

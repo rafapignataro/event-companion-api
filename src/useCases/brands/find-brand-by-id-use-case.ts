@@ -2,7 +2,7 @@ import { Brand } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { BrandsRepository } from '../../repositories/brands/BrandsRepository';
+import { BrandsRepository } from '../../repositories/BrandsRepository';
 
 type FindBrandByIdRequest = {
   id: number;

@@ -1,8 +1,8 @@
 import { APIError } from '../../helpers/Error';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { AdminsRepository } from '../../repositories/admins/AdminsRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { AdminsRepository } from '../../repositories/AdminsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type UpdateAdminRequest = {
   id: number;

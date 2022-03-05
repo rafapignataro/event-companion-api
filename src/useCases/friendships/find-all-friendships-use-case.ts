@@ -1,6 +1,6 @@
 import { Friendship } from '@prisma/client';
 
-import { FriendshipsRepository } from '../../repositories/friendships/FriendshipsRepository';
+import { FriendshipsRepository } from '../../repositories/FriendshipsRepository';
 
 type FindFriendshipsRequest = {
   customerId?: number;

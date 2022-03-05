@@ -2,7 +2,8 @@ import { User } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
-import { UsersRepository } from '../../repositories/users/UsersRepository';
+
+import { UsersRepository } from '../../repositories/UsersRepository';
 
 type CreateUserRequest = {
   email: string;

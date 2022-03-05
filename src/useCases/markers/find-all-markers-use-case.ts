@@ -1,6 +1,6 @@
 import { Marker } from '@prisma/client';
 
-import { MarkersRepository } from '../../repositories/markers/MarkersRepository';
+import { MarkersRepository } from '../../repositories/MarkersRepository';
 
 type FindMarkersRequest = {
   visitorId?: number;

@@ -4,9 +4,9 @@ import { APIError } from '../../helpers/Error';
 
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
-import { BrandsRepository } from '../../repositories/brands/BrandsRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
+import { BrandsRepository } from '../../repositories/BrandsRepository';
 
 type CreateBrandRequest = {
   name: string;

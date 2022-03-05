@@ -1,6 +1,6 @@
 import { Admin } from '@prisma/client';
 
-import { AdminsRepository } from '../../repositories/admins/AdminsRepository';
+import { AdminsRepository } from '../../repositories/AdminsRepository';
 
 export class FindAllAdminsUseCase {
   constructor(

@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
 
 export class FindAllUsersUseCase {
   constructor(

@@ -2,7 +2,7 @@ import { Admin } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { AdminsRepository } from '../../repositories/admins/AdminsRepository';
+import { AdminsRepository } from '../../repositories/AdminsRepository';
 
 type FindAdminByIdRequest = {
   id: number;

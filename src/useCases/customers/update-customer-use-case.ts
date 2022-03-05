@@ -1,7 +1,7 @@
 import { APIError } from '../../helpers/Error';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { CustomersRepository } from '../../repositories/customers/CustomersRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { CustomersRepository } from '../../repositories/CustomersRepository';
 
 type UpdateCustomerRequest = {
   id: number;

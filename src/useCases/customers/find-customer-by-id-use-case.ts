@@ -2,7 +2,7 @@ import { Customer } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { CustomersRepository } from '../../repositories/customers/CustomersRepository';
+import { CustomersRepository } from '../../repositories/CustomersRepository';
 
 type FindCustomerByIdRequest = {
   id: number;

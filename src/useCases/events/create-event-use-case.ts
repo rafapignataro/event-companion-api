@@ -2,7 +2,7 @@ import { Event } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type CreateEventRequest = {
   name: string;

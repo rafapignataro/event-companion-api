@@ -1,8 +1,8 @@
 import { APIError } from '../../helpers/Error';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { BrandsRepository } from '../../repositories/brands/BrandsRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { BrandsRepository } from '../../repositories/BrandsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type UpdateBrandRequest = {
   id: number;

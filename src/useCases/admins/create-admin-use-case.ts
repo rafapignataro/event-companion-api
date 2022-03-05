@@ -4,9 +4,9 @@ import { APIError } from '../../helpers/Error';
 
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
 
-import { UsersRepository } from '../../repositories/users/UsersRepository';
-import { EventsRepository } from '../../repositories/events/EventsRepository';
-import { AdminsRepository } from '../../repositories/admins/AdminsRepository';
+import { UsersRepository } from '../../repositories/UsersRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
+import { AdminsRepository } from '../../repositories/AdminsRepository';
 
 type CreateAdminRequest = {
   name: string;

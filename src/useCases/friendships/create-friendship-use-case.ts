@@ -2,8 +2,8 @@ import { Friendship } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
-import { CustomersRepository } from '../../repositories/customers/CustomersRepository';
-import { FriendshipsRepository } from '../../repositories/friendships/FriendshipsRepository';
+import { CustomersRepository } from '../../repositories/CustomersRepository';
+import { FriendshipsRepository } from '../../repositories/FriendshipsRepository';
 
 type CreateFriendshipRequest = {
   customerId: number;
