@@ -52,12 +52,6 @@ export class CreateCustomerUseCase {
 
     const passwordHash = await this.hashProvider.create(password);
 
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      password: passwordHash,
-    });
-
     if (avatarColor) {
       const isAvatarColorCorrect = avatarColor.length === 7 && avatarColor.includes('#');
 
@@ -69,9 +63,15 @@ export class CreateCustomerUseCase {
       }
     }
 
+    const user = await this.usersRepository.create({
+      name,
+      email,
+      password: passwordHash,
+    });
+
     const customer = await this.customersRepository.create({
       userId: user.id,
-      avatarColor,
+      avatarColor: avatarColor || '#123456',
     });
 
     return customer;

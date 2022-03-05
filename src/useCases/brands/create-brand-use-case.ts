@@ -54,12 +54,6 @@ export class CreateBrandUseCase {
 
     const passwordHash = await this.hashProvider.create(password);
 
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      password: passwordHash,
-    });
-
     const event = await this.eventsRepository.findById(eventId);
 
     if (!event) {
@@ -68,6 +62,12 @@ export class CreateBrandUseCase {
         message: 'This event does not exist.',
       });
     }
+
+    const user = await this.usersRepository.create({
+      name,
+      email,
+      password: passwordHash,
+    });
 
     const brand = await this.brandsRepository.create({
       userId: user.id,

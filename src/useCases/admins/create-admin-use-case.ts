@@ -54,12 +54,6 @@ export class CreateAdminUseCase {
 
     const passwordHash = await this.hashProvider.create(password);
 
-    const user = await this.usersRepository.create({
-      name,
-      email,
-      password: passwordHash,
-    });
-
     const event = await this.eventsRepository.findById(eventId);
 
     if (!event) {
@@ -68,6 +62,12 @@ export class CreateAdminUseCase {
         message: 'This event does not exist.',
       });
     }
+
+    const user = await this.usersRepository.create({
+      name,
+      email,
+      password: passwordHash,
+    });
 
     const admin = await this.adminsRepository.create({
       userId: user.id,
