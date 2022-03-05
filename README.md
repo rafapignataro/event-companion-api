@@ -8,7 +8,7 @@
 - Express
 - Prisma
 - JWT
-- SOLID Principles
+- Clean Architecture / SOLID
 
 ## :rocket: Run in your computer!
 
