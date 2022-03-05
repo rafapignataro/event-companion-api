@@ -5,30 +5,30 @@ import { APIError } from '../../helpers/Error';
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
 import { UsersRepository } from '../../repositories/users/UsersRepository';
 
-type UpdateUserPasswordRequest = {
-  id: number;
+type UpdatePasswordRequest = {
+  userId: number;
   oldPassword: string;
   newPassword: string;
   newPasswordRepeated: string;
 }
 
-export class UpdateUserPasswordUseCase {
+export class UpdatePasswordUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private hashProvider: HashProvider,
   ) {}
 
   public async execute({
-    id, oldPassword, newPassword, newPasswordRepeated,
-  }: UpdateUserPasswordRequest): Promise<void> {
-    if (!id || !oldPassword || !newPassword || !newPasswordRepeated) {
+    userId, oldPassword, newPassword, newPasswordRepeated,
+  }: UpdatePasswordRequest): Promise<void> {
+    if (!userId || !oldPassword || !newPassword || !newPasswordRepeated) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
       });
     }
 
-    const user = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new APIError({
@@ -62,7 +62,7 @@ export class UpdateUserPasswordUseCase {
 
     const passwordHash = await this.hashProvider.create(newPassword);
 
-    await this.usersRepository.updatePassword(id, {
+    await this.usersRepository.updatePassword(userId, {
       password: passwordHash,
     });
   }

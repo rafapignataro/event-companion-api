@@ -1,13 +1,17 @@
 import { Event, PrismaClient } from '@prisma/client';
 
-import { PrismaTransactionClient } from '../../../infra/prisma';
+import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   EventsRepository, CreateEventDTO, UpdateEventDTO,
 } from '../EventsRepository';
 
 export class PrismaEventsRepository implements EventsRepository {
-  constructor(private readonly prismaClient: PrismaClient | PrismaTransactionClient) {}
+  private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
+
+  constructor(prismaTransactionClient?: PrismaTransactionClient) {
+    if (prismaTransactionClient) this.prismaClient = prismaTransactionClient;
+  }
 
   public async findById(id: number): Promise<Event> {
     const event = await this.prismaClient.event.findUnique({

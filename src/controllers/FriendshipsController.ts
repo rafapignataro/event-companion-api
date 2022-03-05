@@ -11,8 +11,8 @@ import { FindFriendshipsUseCase } from '../useCases/friendships/find-all-friends
 
 export class FriendshipsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
-    const prismaFriendshipsRepository = new PrismaFriendshipsRepository(prisma);
+    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaFriendshipsRepository = new PrismaFriendshipsRepository();
 
     const createFriendshipUseCase = new CreateFriendshipUseCase(
       prismaCustomersRepository,
@@ -27,8 +27,8 @@ export class FriendshipsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
-    const prismaFriendshipsRepository = new PrismaFriendshipsRepository(prisma);
+    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaFriendshipsRepository = new PrismaFriendshipsRepository();
 
     const updateFriendshipUseCase = new UpdateFriendshipUseCase(
       prismaCustomersRepository,
@@ -43,7 +43,7 @@ export class FriendshipsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaFriendshipsRepository = new PrismaFriendshipsRepository(prisma);
+    const prismaFriendshipsRepository = new PrismaFriendshipsRepository();
 
     const findFriendshipsUseCase = new FindFriendshipsUseCase(
       prismaFriendshipsRepository,

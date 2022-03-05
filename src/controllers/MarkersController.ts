@@ -12,9 +12,9 @@ import { FindMarkersUseCase } from '../useCases/markers/find-all-markers-use-cas
 
 export class MarkersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaVisitorsRepository = new PrismaVisitorsRepository(prisma);
-    const prismaMarkersRepository = new PrismaMarkersRepository(prisma);
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaVisitorsRepository = new PrismaVisitorsRepository();
+    const prismaMarkersRepository = new PrismaMarkersRepository();
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const createMarkerUseCase = new CreateMarkerUseCase(
       prismaVisitorsRepository,
@@ -34,9 +34,9 @@ export class MarkersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaVisitorsRepository = new PrismaVisitorsRepository(prisma);
-    const prismaMarkersRepository = new PrismaMarkersRepository(prisma);
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaVisitorsRepository = new PrismaVisitorsRepository();
+    const prismaMarkersRepository = new PrismaMarkersRepository();
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const updateMarkerUseCase = new UpdateMarkerUseCase(
       prismaVisitorsRepository,
@@ -56,7 +56,7 @@ export class MarkersController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaMarkersRepository = new PrismaMarkersRepository(prisma);
+    const prismaMarkersRepository = new PrismaMarkersRepository();
 
     const findMarkersUseCase = new FindMarkersUseCase(
       prismaMarkersRepository,

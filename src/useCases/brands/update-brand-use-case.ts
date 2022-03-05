@@ -1,23 +1,27 @@
 import { APIError } from '../../helpers/Error';
 
+import { UsersRepository } from '../../repositories/users/UsersRepository';
 import { BrandsRepository } from '../../repositories/brands/BrandsRepository';
 import { EventsRepository } from '../../repositories/events/EventsRepository';
 
 type UpdateBrandRequest = {
   id: number;
+  name: string;
+  email: string;
   eventId: number;
 }
 
 export class UpdateBrandUseCase {
   constructor(
+    private usersRepository: UsersRepository,
     private brandsRepository: BrandsRepository,
     private eventsRepository: EventsRepository,
   ) {}
 
   public async execute({
-    id, eventId,
+    id, name, email, eventId,
   }: UpdateBrandRequest): Promise<void> {
-    if (!id || !eventId) {
+    if (!id || !name || !email || !eventId) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
@@ -41,6 +45,11 @@ export class UpdateBrandUseCase {
         message: 'This event does not exist.',
       });
     }
+
+    await this.usersRepository.update(brand.userId, {
+      name,
+      email,
+    });
 
     await this.brandsRepository.update(id, {
       eventId,

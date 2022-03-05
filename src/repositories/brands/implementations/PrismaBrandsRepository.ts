@@ -1,12 +1,16 @@
 import { Brand, PrismaClient } from '@prisma/client';
-import { PrismaTransactionClient } from '../../../infra/prisma';
+import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   BrandsRepository, CreateBrandDTO, UpdateBrandDTO,
 } from '../BrandsRepository';
 
 export class PrismaBrandsRepository implements BrandsRepository {
-  constructor(private readonly prismaClient: PrismaClient | PrismaTransactionClient) {}
+  private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
+
+  constructor(prismaTransactionClient?: PrismaTransactionClient) {
+    if (prismaTransactionClient) this.prismaClient = prismaTransactionClient;
+  }
 
   public async findById(id: number): Promise<Brand> {
     const brand = await this.prismaClient.brand.findUnique({

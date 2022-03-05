@@ -11,9 +11,9 @@ import { FindVisitorsUseCase } from '../useCases/visitors/find-all-visitors-use-
 
 export class VisitorsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaCustomersRepository = new PrismaCustomersRepository(prisma);
-    const prismaVisitorsRepository = new PrismaVisitorsRepository(prisma);
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaCustomersRepository = new PrismaCustomersRepository();
+    const prismaVisitorsRepository = new PrismaVisitorsRepository();
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const createVisitorUseCase = new CreateVisitorUseCase(
       prismaCustomersRepository,
@@ -29,7 +29,7 @@ export class VisitorsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaVisitorsRepository = new PrismaVisitorsRepository(prisma);
+    const prismaVisitorsRepository = new PrismaVisitorsRepository();
 
     const findVisitorsUseCase = new FindVisitorsUseCase(
       prismaVisitorsRepository,

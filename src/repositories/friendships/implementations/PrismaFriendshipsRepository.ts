@@ -1,13 +1,17 @@
 import { Friendship, PrismaClient } from '@prisma/client';
 
-import { PrismaTransactionClient } from '../../../infra/prisma';
+import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   FriendshipsRepository, CreateFriendshipDTO, UpdateFriendshipDTO, QueryParamsDTO,
 } from '../FriendshipsRepository';
 
 export class PrismaFriendshipsRepository implements FriendshipsRepository {
-  constructor(private readonly prismaClient: PrismaClient | PrismaTransactionClient) {}
+  private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
+
+  constructor(prismaTransactionClient?: PrismaTransactionClient) {
+    if (prismaTransactionClient) this.prismaClient = prismaTransactionClient;
+  }
 
   public async findById(id: number): Promise<Friendship> {
     const friendship = await this.prismaClient.friendship.findUnique({

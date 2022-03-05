@@ -1,13 +1,17 @@
 import { Marker, PrismaClient } from '@prisma/client';
 
-import { PrismaTransactionClient } from '../../../infra/prisma';
+import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   MarkersRepository, CreateMarkerDTO, UpdateMarkerDTO, QueryParamsDTO,
 } from '../MarkersRepository';
 
 export class PrismaMarkersRepository implements MarkersRepository {
-  constructor(private readonly prismaClient: PrismaClient | PrismaTransactionClient) {}
+  private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
+
+  constructor(prismaTransactionClient?: PrismaTransactionClient) {
+    if (prismaTransactionClient) this.prismaClient = prismaTransactionClient;
+  }
 
   public async findById(id: number): Promise<Marker> {
     const marker = await this.prismaClient.marker.findUnique({

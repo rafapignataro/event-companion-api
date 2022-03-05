@@ -2,18 +2,18 @@ import { APIError } from '../../helpers/Error';
 
 import { UserTokenProvider } from '../../providers/userTokenProvider/UserTokenProvider';
 
-type EnsureUserAuthenticatedRequest = {
+type EnsureAuthenticatedRequest = {
   token: string
 }
 
-export class EnsureUserAuthenticatedUseCase {
+export class EnsureAuthenticatedUseCase {
   constructor(
     private userTokenProvider: UserTokenProvider,
   ) {}
 
   public async execute({
     token,
-  }: EnsureUserAuthenticatedRequest): Promise<void> {
+  }: EnsureAuthenticatedRequest): Promise<void> {
     if (!token) {
       throw new APIError({
         code: 401,

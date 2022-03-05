@@ -8,7 +8,6 @@ import { PrismaUsersRepository } from '../repositories/users/implementations/Pri
 import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
 import { PrismaAdminsRepository } from '../repositories/admins/implementations/PrismaAdminsRepository';
 
-import { CreateUserUseCase } from '../useCases/users/create-user-use-case';
 import { CreateAdminUseCase } from '../useCases/admins/create-admin-use-case';
 import { UpdateAdminUseCase } from '../useCases/admins/update-admin-use-case';
 import { FindAdminByIdUseCase } from '../useCases/admins/find-admin-by-id-use-case';
@@ -27,44 +26,49 @@ export class AdminsController {
       const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
       const prismaAdminsRepository = new PrismaAdminsRepository(prismaClient);
 
-      const createUserUseCase = new CreateUserUseCase(
-        prismaUsersRepository,
-        bcryptHashProvider,
-      );
-
-      const user = await createUserUseCase.execute({ email, name, password });
-
       const createAdminUseCase = new CreateAdminUseCase(
         prismaUsersRepository,
         prismaEventsRepository,
         prismaAdminsRepository,
+        bcryptHashProvider,
       );
 
-      return createAdminUseCase.execute({ userId: user.id, eventId });
+      return createAdminUseCase.execute({
+        name,
+        email,
+        password,
+        eventId,
+      });
     }, { maxWait: 10000, timeout: 10000 });
 
     return response.json(admin);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
-
-    const updateAdminUseCase = new UpdateAdminUseCase(
-      prismaAdminsRepository,
-      prismaEventsRepository,
-    );
-
     const { id } = request.params;
-    const { eventId } = request.body;
+    const { name, email, eventId } = request.body;
 
-    await updateAdminUseCase.execute({ id: Number(id), eventId });
+    await prisma.$transaction(async (prismaClient) => {
+      const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
+      const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
+      const prismaAdminsRepository = new PrismaAdminsRepository(prismaClient);
+
+      const updateAdminUseCase = new UpdateAdminUseCase(
+        prismaUsersRepository,
+        prismaAdminsRepository,
+        prismaEventsRepository,
+      );
+
+      await updateAdminUseCase.execute({
+        id: Number(id), name, email, eventId,
+      });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json();
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
+    const prismaAdminsRepository = new PrismaAdminsRepository();
 
     const findAdminByIdUseCase = new FindAdminByIdUseCase(
       prismaAdminsRepository,
@@ -78,7 +82,7 @@ export class AdminsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaAdminsRepository = new PrismaAdminsRepository(prisma);
+    const prismaAdminsRepository = new PrismaAdminsRepository();
 
     const findAllAdminsUseCase = new FindAllAdminsUseCase(
       prismaAdminsRepository,

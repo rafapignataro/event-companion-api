@@ -4,7 +4,7 @@ import { APIError } from '../helpers/Error';
 
 import { JwtUserTokenProvider } from '../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 
-import { EnsureUserAuthenticatedUseCase } from '../useCases/users/ensure-user-authenticated-user-case';
+import { EnsureAuthenticatedUseCase } from '../useCases/authentication/ensure-authenticated-user-case';
 
 export async function ensureAuthenticated(
   request: Request,
@@ -12,7 +12,7 @@ export async function ensureAuthenticated(
   next: NextFunction,
 ) {
   const jwtUserTokenProvider = new JwtUserTokenProvider();
-  const ensureUserAuthenticatedUseCase = new EnsureUserAuthenticatedUseCase(
+  const ensureAuthenticatedUseCase = new EnsureAuthenticatedUseCase(
     jwtUserTokenProvider,
   );
 
@@ -27,7 +27,7 @@ export async function ensureAuthenticated(
 
   const [, token] = bearerToken.split(' ');
 
-  await ensureUserAuthenticatedUseCase.execute({ token });
+  await ensureAuthenticatedUseCase.execute({ token });
 
   return next();
 }

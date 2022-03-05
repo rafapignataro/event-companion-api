@@ -11,7 +11,7 @@ import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-cas
 
 export class EventsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const createEventUseCase = new CreateEventUseCase(
       prismaEventsRepository,
@@ -29,7 +29,7 @@ export class EventsController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const updateEventUseCase = new UpdateEventUseCase(
       prismaEventsRepository,
@@ -57,7 +57,7 @@ export class EventsController {
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const findEventByIdUseCase = new FindEventByIdUseCase(
       prismaEventsRepository,
@@ -71,7 +71,7 @@ export class EventsController {
   }
 
   public async findAll(request: Request, response: Response): Promise<Response> {
-    const prismaEventsRepository = new PrismaEventsRepository(prisma);
+    const prismaEventsRepository = new PrismaEventsRepository();
 
     const findAllEventsUseCase = new FindAllEventsUseCase(
       prismaEventsRepository,
