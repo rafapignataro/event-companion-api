@@ -8,9 +8,9 @@ const adminsController = new AdminsController();
 
 const adminRoutes = Router();
 
-adminRoutes.post('/', adminsController.create);
-
 adminRoutes.use(ensureAuthenticated);
+
+adminRoutes.post('/', adminsController.create);
 
 adminRoutes.put('/:id', adminsController.update);
 

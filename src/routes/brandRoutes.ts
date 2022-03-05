@@ -8,9 +8,9 @@ const brandsController = new BrandsController();
 
 const brandRoutes = Router();
 
-brandRoutes.post('/', brandsController.create);
-
 brandRoutes.use(ensureAuthenticated);
+
+brandRoutes.post('/', brandsController.create);
 
 brandRoutes.put('/:id', brandsController.update);
 
