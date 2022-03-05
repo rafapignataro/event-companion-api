@@ -19,6 +19,13 @@ export class CreateCustomerUseCase {
     userId,
     avatarColor,
   }: CreateCustomerRequest): Promise<Customer> {
+    if (!userId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {

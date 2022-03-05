@@ -16,6 +16,13 @@ export class FindUserByIdUseCase {
   public async execute({
     id,
   }: FindUserByIdRequest): Promise<User> {
+    if (!id) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findById(id);
 
     if (!user) {

@@ -16,6 +16,13 @@ export class FindEventByIdUseCase {
   public async execute({
     id,
   }: FindEventByIdRequest): Promise<Event> {
+    if (!id) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const event = await this.eventsRepository.findById(id);
 
     if (!event) {

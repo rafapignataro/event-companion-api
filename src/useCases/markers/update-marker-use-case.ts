@@ -26,6 +26,13 @@ export class UpdateMarkerUseCase {
     latitude,
     longitude,
   }: UpdateMarkerRequest): Promise<void> {
+    if (!visitorId || !eventId || !latitude || !longitude) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const visitorExists = await this.visitorsRepository.findById(visitorId);
 
     if (!visitorExists) {

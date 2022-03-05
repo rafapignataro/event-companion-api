@@ -3,8 +3,8 @@ import { Marker } from '@prisma/client';
 import { MarkersRepository } from '../../repositories/markers/MarkersRepository';
 
 type FindMarkersRequest = {
-  visitorId: number;
-  eventId: number;
+  visitorId?: number;
+  eventId?: number;
 }
 
 export class FindMarkersUseCase {

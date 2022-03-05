@@ -17,6 +17,13 @@ export class UpdateAdminUseCase {
   public async execute({
     id, eventId,
   }: UpdateAdminRequest): Promise<void> {
+    if (!id || !eventId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const admin = await this.adminsRepository.findById(id);
 
     if (!admin) {

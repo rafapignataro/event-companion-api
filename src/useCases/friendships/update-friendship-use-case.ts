@@ -20,6 +20,13 @@ export class UpdateFriendshipUseCase {
     friendId,
     status,
   }: UpdateFriendshipRequest): Promise<void> {
+    if (!customerId || !friendId || !status) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     if (status !== 'NOT_ACCEPTED' && status !== 'ACCEPTED' && status !== 'REFUSED') {
       throw new APIError({
         code: 500,

@@ -21,6 +21,13 @@ export class CreateBrandUseCase {
     userId,
     eventId,
   }: CreateBrandRequest): Promise<Brand> {
+    if (!userId || !eventId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {

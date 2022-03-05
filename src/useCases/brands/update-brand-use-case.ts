@@ -17,6 +17,13 @@ export class UpdateBrandUseCase {
   public async execute({
     id, eventId,
   }: UpdateBrandRequest): Promise<void> {
+    if (!id || !eventId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const brand = await this.brandsRepository.findById(id);
 
     if (!brand) {

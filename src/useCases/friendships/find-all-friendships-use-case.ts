@@ -3,7 +3,7 @@ import { Friendship } from '@prisma/client';
 import { FriendshipsRepository } from '../../repositories/friendships/FriendshipsRepository';
 
 type FindFriendshipsRequest = {
-  customerId: number;
+  customerId?: number;
 }
 
 export class FindFriendshipsUseCase {

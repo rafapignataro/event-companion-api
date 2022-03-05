@@ -19,6 +19,13 @@ export class CreateUserUseCase {
   public async execute({
     email, name, password,
   }: CreateUserRequest): Promise<User> {
+    if (!email || !name || !password) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyExists) {

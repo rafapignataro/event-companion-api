@@ -16,6 +16,13 @@ export class UpdateUserUseCase {
   public async execute({
     id, email, name,
   }: UpdateUserRequest): Promise<void> {
+    if (!id || !email || !name) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findById(id);
 
     if (!user) {

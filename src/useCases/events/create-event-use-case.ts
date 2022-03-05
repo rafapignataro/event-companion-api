@@ -1,5 +1,7 @@
 import { Event } from '@prisma/client';
 
+import { APIError } from '../../helpers/Error';
+
 import { EventsRepository } from '../../repositories/events/EventsRepository';
 
 type CreateEventRequest = {
@@ -22,6 +24,13 @@ export class CreateEventUseCase {
     logoURL,
     eventCategoryId,
   }: CreateEventRequest): Promise<Event> {
+    if (!name || !startDate || !endDate || !eventCategoryId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     // TODO: Compare dates;
 
     const event = await this.eventsRepository.create({

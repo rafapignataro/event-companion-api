@@ -27,6 +27,13 @@ export class AuthenticateUserUseCase {
   public async execute({
     email, password,
   }: AuthenticateUserRequest): Promise<AuthenticateUserResponse> {
+    if (!email || !password) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {

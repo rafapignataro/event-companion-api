@@ -15,6 +15,13 @@ export class UpdateCustomerUseCase {
   public async execute({
     id, avatarColor,
   }: UpdateCustomerRequest): Promise<void> {
+    if (!id || !avatarColor) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const customer = await this.customersRepository.findById(id);
 
     if (!customer) {

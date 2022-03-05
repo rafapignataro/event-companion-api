@@ -22,6 +22,13 @@ export class CreateVisitorUseCase {
     customerId,
     eventId,
   }: CreateVisitorRequest): Promise<Visitor> {
+    if (!customerId || !eventId) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const customerExists = await this.customersRepository.findById(customerId);
 
     if (!customerExists) {

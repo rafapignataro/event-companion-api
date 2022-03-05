@@ -16,6 +16,13 @@ export class FindBrandByIdUseCase {
   public async execute({
     id,
   }: FindBrandByIdRequest): Promise<Brand> {
+    if (!id) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const brand = await this.brandsRepository.findById(id);
 
     if (!brand) {

@@ -16,6 +16,13 @@ export class FindAdminByIdUseCase {
   public async execute({
     id,
   }: FindAdminByIdRequest): Promise<Admin> {
+    if (!id) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const admin = await this.adminsRepository.findById(id);
 
     if (!admin) {

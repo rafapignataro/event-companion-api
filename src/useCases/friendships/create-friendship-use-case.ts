@@ -18,10 +18,17 @@ export class CreateFriendshipUseCase {
   ) {}
 
   public async execute({
-    status,
     customerId,
     friendId,
+    status,
   }: CreateFriendshipRequest): Promise<Friendship> {
+    if (!customerId || !friendId || !status) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     if (customerId === friendId) {
       throw new APIError({
         code: 500,

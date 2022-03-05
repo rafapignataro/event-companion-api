@@ -21,6 +21,13 @@ export class UpdateUserPasswordUseCase {
   public async execute({
     id, oldPassword, newPassword, newPasswordRepeated,
   }: UpdateUserPasswordRequest): Promise<void> {
+    if (!id || !oldPassword || !newPassword || !newPasswordRepeated) {
+      throw new APIError({
+        code: 500,
+        message: 'There are missing parameters.',
+      });
+    }
+
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
