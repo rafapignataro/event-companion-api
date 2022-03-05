@@ -4,7 +4,7 @@ import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   AdminsRepository, CreateAdminDTO, UpdateAdminDTO,
-} from '../AdminsRepository';
+} from '../../AdminsRepository';
 
 export class PrismaAdminsRepository implements AdminsRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;

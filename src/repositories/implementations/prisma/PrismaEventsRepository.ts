@@ -4,7 +4,7 @@ import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   EventsRepository, CreateEventDTO, UpdateEventDTO,
-} from '../EventsRepository';
+} from '../../EventsRepository';
 
 export class PrismaEventsRepository implements EventsRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;

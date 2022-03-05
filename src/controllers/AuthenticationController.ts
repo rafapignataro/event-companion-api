@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
 
-import { prisma } from '../infra/prisma';
-
 import { JwtUserTokenProvider } from '../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
-import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
+import { PrismaUsersRepository } from '../repositories/implementations/prisma/PrismaUsersRepository';
 
 import { AuthenticateUserUseCase } from '../useCases/authentication/authenticate-user-use-case';
 import { UpdatePasswordUseCase } from '../useCases/authentication/update-password-use-case';

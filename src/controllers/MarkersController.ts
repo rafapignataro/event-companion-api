@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 
-import { prisma } from '../infra/prisma';
-
-import { PrismaMarkersRepository } from '../repositories/markers/implementations/PrismaMarkersRepository';
-import { PrismaVisitorsRepository } from '../repositories/visitors/implementations/PrismaVisitorsRepository';
-import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
+import { PrismaMarkersRepository } from '../repositories/implementations/prisma/PrismaMarkersRepository';
+import { PrismaVisitorsRepository } from '../repositories/implementations/prisma/PrismaVisitorsRepository';
+import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
 
 import { CreateMarkerUseCase } from '../useCases/markers/create-marker-use-case';
 import { UpdateMarkerUseCase } from '../useCases/markers/update-marker-use-case';

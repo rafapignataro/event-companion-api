@@ -4,7 +4,7 @@ import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   MarkersRepository, CreateMarkerDTO, UpdateMarkerDTO, QueryParamsDTO,
-} from '../MarkersRepository';
+} from '../../MarkersRepository';
 
 export class PrismaMarkersRepository implements MarkersRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;

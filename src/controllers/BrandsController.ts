@@ -4,9 +4,9 @@ import { prisma } from '../infra/prisma';
 
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
-import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
-import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
-import { PrismaBrandsRepository } from '../repositories/brands/implementations/PrismaBrandsRepository';
+import { PrismaUsersRepository } from '../repositories/implementations/prisma/PrismaUsersRepository';
+import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
+import { PrismaBrandsRepository } from '../repositories/implementations/prisma/PrismaBrandsRepository';
 
 import { CreateBrandUseCase } from '../useCases/brands/create-brand-use-case';
 import { UpdateBrandUseCase } from '../useCases/brands/update-brand-use-case';

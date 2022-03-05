@@ -4,8 +4,8 @@ import { prisma } from '../infra/prisma';
 
 import { BCryptHashProvider } from '../providers/hashProvider/implementations/bcryptHashProvider';
 
-import { PrismaUsersRepository } from '../repositories/users/implementations/PrismaUsersRepository';
-import { PrismaCustomersRepository } from '../repositories/customers/implementations/PrismaCustomersRepository';
+import { PrismaUsersRepository } from '../repositories/implementations/prisma/PrismaUsersRepository';
+import { PrismaCustomersRepository } from '../repositories/implementations/prisma/PrismaCustomersRepository';
 
 import { CreateCustomerUseCase } from '../useCases/customers/create-customer-use-case';
 import { UpdateCustomerUseCase } from '../useCases/customers/update-customer-use-case';

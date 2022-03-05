@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 
-import { prisma } from '../infra/prisma';
-
-import { PrismaVisitorsRepository } from '../repositories/visitors/implementations/PrismaVisitorsRepository';
-import { PrismaCustomersRepository } from '../repositories/customers/implementations/PrismaCustomersRepository';
-import { PrismaEventsRepository } from '../repositories/events/implementations/PrismaEventsRepository';
+import { PrismaVisitorsRepository } from '../repositories/implementations/prisma/PrismaVisitorsRepository';
+import { PrismaCustomersRepository } from '../repositories/implementations/prisma/PrismaCustomersRepository';
+import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
 
 import { CreateVisitorUseCase } from '../useCases/visitors/create-visitor-use-case';
 import { FindVisitorsUseCase } from '../useCases/visitors/find-all-visitors-use-case';

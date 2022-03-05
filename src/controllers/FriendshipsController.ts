@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 
-import { prisma } from '../infra/prisma';
-
-import { PrismaFriendshipsRepository } from '../repositories/friendships/implementations/PrismaFriendshipsRepository';
-import { PrismaCustomersRepository } from '../repositories/customers/implementations/PrismaCustomersRepository';
+import { PrismaFriendshipsRepository } from '../repositories/implementations/prisma/PrismaFriendshipsRepository';
+import { PrismaCustomersRepository } from '../repositories/implementations/prisma/PrismaCustomersRepository';
 
 import { CreateFriendshipUseCase } from '../useCases/friendships/create-friendship-use-case';
 import { UpdateFriendshipUseCase } from '../useCases/friendships/update-friendship-use-case';

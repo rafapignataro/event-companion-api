@@ -4,7 +4,7 @@ import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO,
-} from '../UsersRepository';
+} from '../../UsersRepository';
 
 export class PrismaUsersRepository implements UsersRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;

@@ -3,7 +3,7 @@ import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
   BrandsRepository, CreateBrandDTO, UpdateBrandDTO,
-} from '../BrandsRepository';
+} from '../../BrandsRepository';
 
 export class PrismaBrandsRepository implements BrandsRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
