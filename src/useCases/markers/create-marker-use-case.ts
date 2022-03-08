@@ -51,17 +51,12 @@ export class CreateMarkerUseCase {
       });
     }
 
-    const markerRelationExists = await this.markersRepository.findByVisitorAndEventId(
+    const visitorHasMarker = await this.markersRepository.findByVisitorAndEventId(
       visitorId,
       eventId,
     );
 
-    if (markerRelationExists) {
-      throw new APIError({
-        code: 500,
-        message: 'This visitor already has a marker in this event.',
-      });
-    }
+    if (visitorHasMarker) await this.markersRepository.delete(visitorHasMarker.id);
 
     const marker = await this.markersRepository.create({
       visitorId,
