@@ -135,9 +135,9 @@ model EventCategory {
 }
 
 model Marker {
-  id        Int    @id @default(autoincrement())
-  latitude  String
-  longitude String
+  id        Int   @id @default(autoincrement())
+  latitude  Float
+  longitude Float
 
   Visitor   Visitor @relation(fields: [visitorId], references: [id])
   visitorId Int
@@ -153,8 +153,8 @@ model Marker {
 model Location {
   id        Int    @id @default(autoincrement())
   name      String @db.VarChar(255)
-  latitude  String
-  longitude String
+  latitude  Float
+  longitude Float
 
   Events Activation[]
 
