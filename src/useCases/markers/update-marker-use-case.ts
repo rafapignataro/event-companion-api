@@ -7,8 +7,8 @@ import { EventsRepository } from '../../repositories/EventsRepository';
 type UpdateMarkerRequest = {
   visitorId: number;
   eventId: number;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export class UpdateMarkerUseCase {

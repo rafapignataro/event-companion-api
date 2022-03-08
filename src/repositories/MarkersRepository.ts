@@ -3,13 +3,13 @@ import { Marker } from '@prisma/client';
 export type CreateMarkerDTO = {
   visitorId: number;
   eventId: number;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export type UpdateMarkerDTO = {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
 export type QueryParamsDTO = {
