@@ -5,6 +5,7 @@ import { PrismaVisitorsRepository } from '../repositories/implementations/prisma
 import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
 
 import { CreateMarkerUseCase } from '../useCases/markers/create-marker-use-case';
+import { DeleteMarkerUseCase } from '../useCases/markers/delete-marker-use-case';
 import { UpdateMarkerUseCase } from '../useCases/markers/update-marker-use-case';
 import { FindMarkersUseCase } from '../useCases/markers/find-all-markers-use-case';
 
@@ -48,6 +49,28 @@ export class MarkersController {
 
     await updateMarkerUseCase.execute({
       visitorId, eventId, latitude, longitude,
+    });
+
+    return response.json();
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const prismaVisitorsRepository = new PrismaVisitorsRepository();
+    const prismaMarkersRepository = new PrismaMarkersRepository();
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const deleteMarkerUseCase = new DeleteMarkerUseCase(
+      prismaVisitorsRepository,
+      prismaMarkersRepository,
+      prismaEventsRepository,
+    );
+
+    const {
+      visitorId, eventId,
+    } = request.body;
+
+    await deleteMarkerUseCase.execute({
+      visitorId, eventId,
     });
 
     return response.json();

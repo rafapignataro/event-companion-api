@@ -4,14 +4,12 @@ import { VisitorsRepository } from '../../repositories/VisitorsRepository';
 import { MarkersRepository } from '../../repositories/MarkersRepository';
 import { EventsRepository } from '../../repositories/EventsRepository';
 
-type UpdateMarkerRequest = {
+type DeleteMarkerRequest = {
   visitorId: number;
   eventId: number;
-  latitude: number;
-  longitude: number;
 }
 
-export class UpdateMarkerUseCase {
+export class DeleteMarkerUseCase {
   constructor(
     private visitorsRepository: VisitorsRepository,
     private markersRepository: MarkersRepository,
@@ -21,10 +19,8 @@ export class UpdateMarkerUseCase {
   public async execute({
     visitorId,
     eventId,
-    latitude,
-    longitude,
-  }: UpdateMarkerRequest): Promise<void> {
-    if (!visitorId || !eventId || !latitude || !longitude) {
+  }: DeleteMarkerRequest): Promise<void> {
+    if (!visitorId || !eventId) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
@@ -61,9 +57,6 @@ export class UpdateMarkerUseCase {
       });
     }
 
-    await this.markersRepository.update(visitorEventMarker.id, {
-      latitude,
-      longitude,
-    });
+    await this.markersRepository.delete(visitorEventMarker.id);
   }
 }

@@ -14,6 +14,8 @@ markerRoutes.post('/', markersController.create);
 
 markerRoutes.put('/', markersController.update);
 
+markerRoutes.delete('/', markersController.delete);
+
 markerRoutes.get('/', markersController.findAll);
 
 export { markerRoutes };
