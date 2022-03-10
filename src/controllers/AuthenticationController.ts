@@ -45,4 +45,8 @@ export class AuthenticationController {
 
     return response.json();
   }
+
+  public async status(request: Request, response: Response): Promise<Response> {
+    return response.json();
+  }
 }

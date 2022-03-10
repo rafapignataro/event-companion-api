@@ -14,4 +14,6 @@ authenticationRoutes.use(ensureAuthenticated);
 
 authenticationRoutes.put('/password/:userId', authenticationController.updatePassword);
 
+authenticationRoutes.get('/status', authenticationController.status);
+
 export { authenticationRoutes };
