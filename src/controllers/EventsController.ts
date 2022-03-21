@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
+import { PrismaEventCategoriesRepository } from '../repositories/implementations/prisma/PrismaEventCategoriesRepository';
 
 import { CreateEventUseCase } from '../useCases/events/create-event-use-case';
 import { UpdateEventUseCase } from '../useCases/events/update-event-use-case';
@@ -10,17 +11,19 @@ import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-cas
 export class EventsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const prismaEventsRepository = new PrismaEventsRepository();
+    const prismaEventCategoriesRepository = new PrismaEventCategoriesRepository();
 
     const createEventUseCase = new CreateEventUseCase(
       prismaEventsRepository,
+      prismaEventCategoriesRepository,
     );
 
     const {
-      name, startDate, endDate, logoURL, eventCategoryId,
+      name, startDate, endDate, logoURL, eventCategoryCode,
     } = request.body;
 
     const event = await createEventUseCase.execute({
-      name, startDate, endDate, logoURL, eventCategoryId,
+      name, startDate, endDate, logoURL, eventCategoryCode,
     });
 
     return response.json(event);
@@ -28,9 +31,11 @@ export class EventsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const prismaEventsRepository = new PrismaEventsRepository();
+    const prismaEventCategoriesRepository = new PrismaEventCategoriesRepository();
 
     const updateEventUseCase = new UpdateEventUseCase(
       prismaEventsRepository,
+      prismaEventCategoriesRepository,
     );
 
     const { id } = request.params;
@@ -39,7 +44,7 @@ export class EventsController {
       startDate,
       endDate,
       logoURL,
-      eventCategoryId,
+      eventCategoryCode,
     } = request.body;
 
     await updateEventUseCase.execute({
@@ -48,7 +53,7 @@ export class EventsController {
       startDate,
       endDate,
       logoURL,
-      eventCategoryId,
+      eventCategoryCode,
     });
 
     return response.json();

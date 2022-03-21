@@ -1,4 +1,5 @@
 import { APIError } from '../../helpers/Error';
+import { EventCategoriesRepository } from '../../repositories/EventCategoriesRepository';
 
 import { EventsRepository } from '../../repositories/EventsRepository';
 
@@ -8,12 +9,13 @@ type UpdateEventRequest = {
   startDate: Date;
   endDate: Date;
   logoURL?: string;
-  eventCategoryId: number;
+  eventCategoryCode: string;
 }
 
 export class UpdateEventUseCase {
   constructor(
     private eventsRepository: EventsRepository,
+    private eventCategoriesRepository: EventCategoriesRepository,
   ) {}
 
   public async execute({
@@ -22,9 +24,9 @@ export class UpdateEventUseCase {
     startDate,
     endDate,
     logoURL,
-    eventCategoryId,
+    eventCategoryCode,
   }: UpdateEventRequest): Promise<void> {
-    if (!id || !name || !startDate || !endDate || !eventCategoryId) {
+    if (!id || !name || !startDate || !endDate || !eventCategoryCode) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
@@ -40,12 +42,23 @@ export class UpdateEventUseCase {
       });
     }
 
+    const locationCategoryExists = await this.eventCategoriesRepository.findByCode(
+      eventCategoryCode,
+    );
+
+    if (!locationCategoryExists) {
+      throw new APIError({
+        code: 500,
+        message: 'This event category does not exist.',
+      });
+    }
+
     await this.eventsRepository.update(id, {
       name,
       startDate,
       endDate,
       logoURL,
-      eventCategoryId,
+      eventCategoryId: locationCategoryExists.id,
     });
   }
 }

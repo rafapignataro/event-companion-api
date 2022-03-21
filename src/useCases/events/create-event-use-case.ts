@@ -2,6 +2,7 @@ import { Event } from '@prisma/client';
 
 import { APIError } from '../../helpers/Error';
 
+import { EventCategoriesRepository } from '../../repositories/EventCategoriesRepository';
 import { EventsRepository } from '../../repositories/EventsRepository';
 
 type CreateEventRequest = {
@@ -9,12 +10,13 @@ type CreateEventRequest = {
   startDate: Date;
   endDate: Date;
   logoURL?: string;
-  eventCategoryId: number;
+  eventCategoryCode: string;
 }
 
 export class CreateEventUseCase {
   constructor(
     private eventsRepository: EventsRepository,
+    private eventCategoriesRepository: EventCategoriesRepository,
   ) {}
 
   public async execute({
@@ -22,12 +24,23 @@ export class CreateEventUseCase {
     startDate,
     endDate,
     logoURL,
-    eventCategoryId,
+    eventCategoryCode,
   }: CreateEventRequest): Promise<Event> {
-    if (!name || !startDate || !endDate || !eventCategoryId) {
+    if (!name || !startDate || !endDate || !eventCategoryCode) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
+      });
+    }
+
+    const locationCategoryExists = await this.eventCategoriesRepository.findByCode(
+      eventCategoryCode,
+    );
+
+    if (!locationCategoryExists) {
+      throw new APIError({
+        code: 500,
+        message: 'This event category does not exist.',
       });
     }
 
@@ -38,7 +51,7 @@ export class CreateEventUseCase {
       startDate,
       endDate,
       logoURL,
-      eventCategoryId,
+      eventCategoryId: locationCategoryExists.id,
     });
 
     return event;

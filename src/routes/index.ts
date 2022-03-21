@@ -8,6 +8,7 @@ import { eventRoutes } from './eventRoutes';
 import { friendshipRoutes } from './friendshipRoutes';
 import { visitorRoutes } from './visitorRoutes';
 import { markerRoutes } from './markerRoutes';
+import { locationRoutes } from './locationRoutes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/events', eventRoutes);
 routes.use('/friendships', friendshipRoutes);
 routes.use('/visitors', visitorRoutes);
 routes.use('/markers', markerRoutes);
+routes.use('/locations', locationRoutes);
 
 export { routes };
