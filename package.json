@@ -1,6 +1,7 @@
 {
   "name": "event-companion-api",
   "version": "1.0.0",
+  "node": ">=16.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
