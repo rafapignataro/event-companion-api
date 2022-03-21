@@ -126,6 +126,7 @@ model Event {
 model EventCategory {
   id   Int    @id @default(autoincrement())
   name String @db.VarChar(255)
+  code String @unique @db.VarChar(255)
 
   Events Event[]
 
@@ -162,8 +163,8 @@ model Location {
   Event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
-  Brand   Brand @relation(fields: [brandId], references: [id])
-  brandId Int
+  Brand   Brand? @relation(fields: [brandId], references: [id])
+  brandId Int?
 
   LocationCategory   LocationCategory @relation(fields: [locationCategoryId], references: [id])
   locationCategoryId Int
@@ -174,9 +175,9 @@ model Location {
 }
 
 model LocationCategory {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(255)
-  description String @db.VarChar(255)
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+  code String @unique @db.VarChar(255)
 
   locations Location[]
 
