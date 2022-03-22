@@ -6,7 +6,7 @@ export class JwtUserTokenProvider implements UserTokenProvider {
   private secretKey: string;
 
   constructor() {
-    this.secretKey = process.env.JWT_SECRET;
+    this.secretKey = process.env.JWT_SECRET || '';
   }
 
   public async create(data: CreateUserTokenData) {
