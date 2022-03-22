@@ -27,7 +27,6 @@ async function seed() {
     },
   })));
 
-  console.log('zap');
   await Promise.all(locationCategories.map(
     async (locationCategory) => prisma.locationCategory.upsert({
       where: { code: locationCategory.code },
@@ -41,10 +40,8 @@ async function seed() {
 }
 
 seed()
-  .catch((e) => {
-    console.log('Seeded the DB');
-    process.exit(1);
-  })
+  .then(() => console.log('seeded'))
+  .catch(() => process.exit(1))
   .finally(async () => {
     await prisma.$disconnect();
   });
