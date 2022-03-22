@@ -9,12 +9,12 @@ const eventCategories = [
 ];
 
 const locationCategories = [
-  { code: 'ATTRACTION', name: 'Attraction', description: '' },
-  { code: 'FOOD', name: 'Food', description: '' },
-  { code: 'SHOPPING', name: 'Shopping', description: '' },
-  { code: 'UTILITIES', name: 'Utilities', description: '' },
-  { code: 'ATTENDANCE', name: 'Attendance', description: '' },
-  { code: 'DRINKS', name: 'Drinks', description: '' },
+  { code: 'ATTRACTION', name: 'Attraction' },
+  { code: 'FOOD', name: 'Food' },
+  { code: 'SHOPPING', name: 'Shopping' },
+  { code: 'UTILITIES', name: 'Utilities' },
+  { code: 'ATTENDANCE', name: 'Attendance' },
+  { code: 'DRINKS', name: 'Drinks' },
 ];
 
 async function seed() {
@@ -34,7 +34,6 @@ async function seed() {
       create: {
         code: locationCategory.code,
         name: locationCategory.name,
-        description: locationCategory.description,
       },
     }),
   ));
