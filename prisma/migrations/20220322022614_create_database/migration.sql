@@ -46,7 +46,6 @@ CREATE TABLE "brands" (
 -- CreateTable
 CREATE TABLE "visitors" (
     "id" SERIAL NOT NULL,
-    "status" VARCHAR(255) NOT NULL,
     "customerId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -85,6 +84,7 @@ CREATE TABLE "events" (
 CREATE TABLE "event_categories" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
+    "code" VARCHAR(255) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -94,8 +94,8 @@ CREATE TABLE "event_categories" (
 -- CreateTable
 CREATE TABLE "markers" (
     "id" SERIAL NOT NULL,
-    "latitude" TEXT NOT NULL,
-    "longitude" TEXT NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
     "visitorId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -108,10 +108,11 @@ CREATE TABLE "markers" (
 CREATE TABLE "locations" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "latitude" TEXT NOT NULL,
-    "longitude" TEXT NOT NULL,
+    "description" VARCHAR(255),
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
     "eventId" INTEGER NOT NULL,
-    "brandId" INTEGER NOT NULL,
+    "brandId" INTEGER,
     "locationCategoryId" INTEGER NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -123,7 +124,7 @@ CREATE TABLE "locations" (
 CREATE TABLE "location_categories" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "description" VARCHAR(255) NOT NULL,
+    "code" VARCHAR(255) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -152,6 +153,12 @@ CREATE UNIQUE INDEX "admins_userId_key" ON "admins"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "brands_userId_key" ON "brands"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "event_categories_code_key" ON "event_categories"("code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "location_categories_code_key" ON "location_categories"("code");
 
 -- AddForeignKey
 ALTER TABLE "customers" ADD CONSTRAINT "customers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -190,7 +197,7 @@ ALTER TABLE "markers" ADD CONSTRAINT "markers_visitorId_fkey" FOREIGN KEY ("visi
 ALTER TABLE "markers" ADD CONSTRAINT "markers_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "events"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "locations" ADD CONSTRAINT "locations_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "brands"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "locations" ADD CONSTRAINT "locations_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "brands"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "locations" ADD CONSTRAINT "locations_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "events"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
