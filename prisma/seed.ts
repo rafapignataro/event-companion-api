@@ -40,7 +40,10 @@ async function seed() {
 }
 
 seed()
-  .catch((e) => process.exit(1))
+  .catch((e) => {
+    console.log('Seeded the DB');
+    process.exit(1);
+  })
   .finally(async () => {
     await prisma.$disconnect();
   });
