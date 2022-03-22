@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "prisma generate && tsc",
+    "prepare": "npx prisma generate",
+    "build": "tsc",
     "start": "node build/src/server.js"
   },
   "prisma": {
