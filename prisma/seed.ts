@@ -27,6 +27,7 @@ async function seed() {
     },
   })));
 
+  console.log('zap');
   await Promise.all(locationCategories.map(
     async (locationCategory) => prisma.locationCategory.upsert({
       where: { code: locationCategory.code },
