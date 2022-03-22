@@ -40,7 +40,6 @@ async function seed() {
 }
 
 seed()
-  .then(() => console.log('seeded'))
   .catch(() => process.exit(1))
   .finally(async () => {
     await prisma.$disconnect();
