@@ -52,7 +52,7 @@ export class UpdateCustomerUseCase {
     });
 
     await this.customersRepository.update(id, {
-      avatarColor,
+      avatarColor: avatarColor || customer.avatarColor,
     });
   }
 }
