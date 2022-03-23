@@ -1,4 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { PrismaClient } = require('@prisma/client');
+const bcryptjs = require('bcryptjs');
 
 const prisma = new PrismaClient();
 
@@ -16,6 +18,21 @@ const locationCategories = [
   { code: 'ATTENDANCE', name: 'Attendance' },
   { code: 'DRINKS', name: 'Drinks' },
 ];
+
+const EVENT = {
+  id: 1,
+  name: 'Lollapalooza',
+  email: 'superadmin@gmail.com',
+  password: '123456',
+};
+
+const ADMIN = {
+  id: 1,
+  name: 'SUPER ADMIN',
+  email: 'superadmin@gmail.com',
+  password: '123456',
+  eventId: EVENT.id,
+};
 
 async function seed() {
   await Promise.all(eventCategories.map(async (eventCategory) => prisma.eventCategory.upsert({
@@ -37,6 +54,39 @@ async function seed() {
       },
     }),
   ));
+
+  await prisma.event.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      name: EVENT.name,
+      startDate: new Date('2021-04-01'),
+      endDate: new Date('2021-04-30'),
+      eventCategoryId: 1,
+    },
+  });
+
+  await prisma.user.upsert({
+    where: {
+      id: 1,
+    },
+    update: {},
+    create: {
+      name: ADMIN.name,
+      email: ADMIN.email,
+      password: await bcryptjs.hash(ADMIN.password, 16),
+      Admin: {
+        connectOrCreate: {
+          where: {
+            userId: 1,
+          },
+          create: {
+            eventId: ADMIN.eventId,
+          },
+        },
+      },
+    },
+  });
 }
 
 seed()
