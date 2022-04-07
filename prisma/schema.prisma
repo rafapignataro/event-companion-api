@@ -16,6 +16,7 @@ model User {
   name     String @db.VarChar(255)
   email    String @db.VarChar(255)
   password String @db.VarChar(255)
+  role     String @default("ADMIN") @db.VarChar(255)
 
   admin    Admin?
   brand    Brand?
