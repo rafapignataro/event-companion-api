@@ -7,6 +7,7 @@ import { CreateEventUseCase } from '../useCases/events/create-event-use-case';
 import { UpdateEventUseCase } from '../useCases/events/update-event-use-case';
 import { FindEventByIdUseCase } from '../useCases/events/find-event-by-id-use-case';
 import { FindAllEventsUseCase } from '../useCases/events/find-all-events-use-case';
+import { FetchEventSummaryUseCase } from '../useCases/events/fetch-event-summary-use-case';
 
 export class EventsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -81,6 +82,24 @@ export class EventsController {
     );
 
     const events = await findAllEventsUseCase.execute();
+
+    return response.json(events);
+  }
+
+  public async summary(request: Request, response: Response): Promise<Response> {
+    const prismaEventsRepository = new PrismaEventsRepository();
+
+    const findAllEventsUseCase = new FetchEventSummaryUseCase(
+      prismaEventsRepository,
+    );
+
+    const { id } = request.params;
+    const { version } = request.query;
+
+    const events = await findAllEventsUseCase.execute({
+      id: Number(id),
+      version: version ? Number(version) : undefined,
+    });
 
     return response.json(events);
   }
