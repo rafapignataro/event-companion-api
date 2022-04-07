@@ -1,4 +1,4 @@
-import { sign, verify } from 'jsonwebtoken';
+import JWT, { sign, verify, JwtPayload } from 'jsonwebtoken';
 
 import { CreateUserTokenData, UserTokenProvider } from '../UserTokenProvider';
 
@@ -9,7 +9,7 @@ export class JwtUserTokenProvider implements UserTokenProvider {
     this.secretKey = process.env.JWT_SECRET || '';
   }
 
-  public async create(data: CreateUserTokenData) {
+  public create(data: CreateUserTokenData) {
     const token = sign(data, this.secretKey, {
       subject: String(data.id),
       expiresIn: '60m',
@@ -18,7 +18,7 @@ export class JwtUserTokenProvider implements UserTokenProvider {
     return token;
   }
 
-  public async validate(token: string) {
+  public validate(token: string) {
     try {
       verify(token, this.secretKey);
 
@@ -26,5 +26,13 @@ export class JwtUserTokenProvider implements UserTokenProvider {
     } catch {
       return false;
     }
+  }
+
+  public decode(token: string) {
+    const decoded = JWT.decode(token, {
+      json: true,
+    });
+
+    return decoded;
   }
 }
