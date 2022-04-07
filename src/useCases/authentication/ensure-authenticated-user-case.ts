@@ -21,7 +21,7 @@ export class EnsureAuthenticatedUseCase {
       });
     }
 
-    const isAuthenticated = await this.userTokenProvider.validate(token);
+    const isAuthenticated = this.userTokenProvider.validate(token);
 
     if (!isAuthenticated) {
       throw new APIError({

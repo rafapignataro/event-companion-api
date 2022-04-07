@@ -88,9 +88,11 @@ export class LocationsController {
       prismaLocationsRepository,
     );
 
+    const { user } = request;
     const { eventId, brandId } = request.query;
 
     const locations = await findLocationsUseCase.execute({
+      role: user.role,
       eventId: eventId ? Number(eventId) : undefined,
       brandId: brandId ? Number(brandId) : undefined,
     });
