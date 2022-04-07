@@ -3,7 +3,7 @@ import { Event, PrismaClient } from '@prisma/client';
 import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
-  EventsRepository, CreateEventDTO, UpdateEventDTO,
+  EventsRepository, CreateEventDTO, UpdateEventDTO, EventSummaryDTO,
 } from '../../EventsRepository';
 
 export class PrismaEventsRepository implements EventsRepository {
@@ -27,6 +27,56 @@ export class PrismaEventsRepository implements EventsRepository {
     const events = await this.prismaClient.event.findMany();
 
     return events;
+  }
+
+  public async summary(id: number): Promise<EventSummaryDTO> {
+    const event = await this.prismaClient.event.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        version: true,
+        brands: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
+        locations: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            latitude: true,
+            longitude: true,
+            locationCategory: {
+              select: {
+                code: true,
+                name: true,
+              },
+            },
+            activations: {
+              select: {
+                id: true,
+                name: true,
+                description: true,
+                startDate: true,
+                endDate: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return event;
   }
 
   public async create(data: CreateEventDTO): Promise<Event> {
