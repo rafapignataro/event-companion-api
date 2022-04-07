@@ -18,7 +18,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
         id,
       },
       include: {
-        User: true,
+        user: true,
       },
     });
 
@@ -28,7 +28,7 @@ export class PrismaBrandsRepository implements BrandsRepository {
   public async findAll(): Promise<Brand[]> {
     const brands = await this.prismaClient.brand.findMany({
       include: {
-        User: true,
+        user: true,
       },
     });
 

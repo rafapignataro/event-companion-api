@@ -18,7 +18,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
         id,
       },
       include: {
-        User: true,
+        user: true,
       },
     });
 
@@ -28,7 +28,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
   public async findAll(): Promise<Customer[]> {
     const customers = await this.prismaClient.customer.findMany({
       include: {
-        User: true,
+        user: true,
       },
     });
 

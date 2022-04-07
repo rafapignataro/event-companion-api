@@ -19,7 +19,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
         id,
       },
       include: {
-        User: true,
+        user: true,
       },
     });
 
@@ -29,7 +29,7 @@ export class PrismaAdminsRepository implements AdminsRepository {
   public async findAll(): Promise<Admin[]> {
     const admins = await this.prismaClient.admin.findMany({
       include: {
-        User: true,
+        user: true,
       },
     });
 

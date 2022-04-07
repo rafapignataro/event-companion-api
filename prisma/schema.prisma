@@ -17,9 +17,9 @@ model User {
   email    String @db.VarChar(255)
   password String @db.VarChar(255)
 
-  Admin    Admin?
-  Brand    Brand?
-  Customer Customer?
+  admin    Admin?
+  brand    Brand?
+  customer Customer?
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -30,12 +30,12 @@ model Customer {
   id          Int    @id @default(autoincrement())
   avatarColor String @db.VarChar(255)
 
-  User   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  Friends          Friendship[] @relation()
+  friends          Friendship[] @relation()
   friendsRelations Friendship[] @relation("friend_customers")
-  Visitors         Visitor[]
+  visitors         Visitor[]
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -45,10 +45,10 @@ model Customer {
 model Admin {
   id Int @id @default(autoincrement())
 
-  User   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  Event   Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
   updatedAt DateTime @updatedAt
@@ -59,13 +59,13 @@ model Admin {
 model Brand {
   id Int @id @default(autoincrement())
 
-  User   User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  Event   Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
-  Locations Location[]
+  locations Location[]
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -75,12 +75,12 @@ model Brand {
 model Visitor {
   id Int @id @default(autoincrement())
 
-  Customer   Customer @relation(fields: [customerId], references: [id])
+  customer   Customer @relation(fields: [customerId], references: [id])
   customerId Int
-  Event      Event    @relation(fields: [eventId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id])
   eventId    Int
 
-  Markers Marker[]
+  markers Marker[]
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -91,10 +91,10 @@ model Friendship {
   id     Int    @id @default(autoincrement())
   status String @db.VarChar(255)
 
-  Customer   Customer @relation(fields: [customerId], references: [id])
+  customer   Customer @relation(fields: [customerId], references: [id])
   customerId Int
 
-  Friend   Customer @relation("friend_customers", fields: [friendId], references: [id])
+  friend   Customer @relation("friend_customers", fields: [friendId], references: [id])
   friendId Int
 
   updatedAt DateTime @updatedAt
@@ -108,14 +108,15 @@ model Event {
   startDate DateTime
   endDate   DateTime
   logoURL   String?  @db.VarChar(255)
+  version   Int      @default(1)
 
-  Visitors  Visitor[]
-  Markers   Marker[]
-  Admins    Admin[]
-  Brands    Brand[]
-  Locations Location[]
+  visitors  Visitor[]
+  markers   Marker[]
+  admins    Admin[]
+  brands    Brand[]
+  locations Location[]
 
-  EventCategory   EventCategory @relation(fields: [eventCategoryId], references: [id])
+  eventCategory   EventCategory @relation(fields: [eventCategoryId], references: [id])
   eventCategoryId Int
 
   updatedAt DateTime @updatedAt
@@ -128,7 +129,7 @@ model EventCategory {
   name String @db.VarChar(255)
   code String @unique @db.VarChar(255)
 
-  Events Event[]
+  events Event[]
 
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
@@ -140,10 +141,10 @@ model Marker {
   latitude  Float
   longitude Float
 
-  Visitor   Visitor @relation(fields: [visitorId], references: [id])
+  visitor   Visitor @relation(fields: [visitorId], references: [id])
   visitorId Int
 
-  Event   Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
   updatedAt DateTime @updatedAt
@@ -158,15 +159,15 @@ model Location {
   latitude    Float
   longitude   Float
 
-  Events Activation[]
+  activations Activation[]
 
-  Event   Event @relation(fields: [eventId], references: [id])
+  event   Event @relation(fields: [eventId], references: [id])
   eventId Int
 
-  Brand   Brand? @relation(fields: [brandId], references: [id])
+  brand   Brand? @relation(fields: [brandId], references: [id])
   brandId Int?
 
-  LocationCategory   LocationCategory @relation(fields: [locationCategoryId], references: [id])
+  locationCategory   LocationCategory @relation(fields: [locationCategoryId], references: [id])
   locationCategoryId Int
 
   updatedAt DateTime @updatedAt
@@ -193,7 +194,7 @@ model Activation {
   startDate   DateTime
   endDate     DateTime
 
-  Location   Location @relation(fields: [locationId], references: [id])
+  location   Location @relation(fields: [locationId], references: [id])
   locationId Int
 
   updatedAt DateTime @updatedAt

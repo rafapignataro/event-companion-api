@@ -75,7 +75,7 @@ async function seed() {
       name: ADMIN.name,
       email: ADMIN.email,
       password: await bcryptjs.hash(ADMIN.password, 16),
-      Admin: {
+      admin: {
         connectOrCreate: {
           where: {
             userId: 1,
