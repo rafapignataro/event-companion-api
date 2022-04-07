@@ -3,7 +3,7 @@ import { Location, PrismaClient } from '@prisma/client';
 import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
-  LocationsRepository, CreateLocationDTO, UpdateLocationDTO, QueryParamsDTO,
+  LocationsRepository, CreateLocationDTO, UpdateLocationDTO, QueryParamsDTO, FindAllLocationsDTO,
 } from '../../LocationsRepository';
 
 export class PrismaLocationsRepository implements LocationsRepository {
@@ -18,6 +18,9 @@ export class PrismaLocationsRepository implements LocationsRepository {
       where: {
         id,
       },
+      include: {
+        activations: true,
+      },
     });
 
     return location;
@@ -29,16 +32,35 @@ export class PrismaLocationsRepository implements LocationsRepository {
         eventId,
         brandId,
       },
+      include: {
+        activations: true,
+      },
     });
 
     return location;
   }
 
-  public async findAll({ eventId, brandId }: QueryParamsDTO): Promise<Location[]> {
+  public async findAll({
+    authorized,
+    eventId,
+    brandId,
+  }: QueryParamsDTO): Promise<FindAllLocationsDTO[]> {
     const locations = await this.prismaClient.location.findMany({
       where: {
         eventId,
         brandId,
+      },
+      include: {
+        activations: {
+          where: !authorized ? {
+            endDate: {
+              gte: new Date().toISOString(),
+            },
+          } : {},
+          orderBy: {
+            startDate: 'asc',
+          },
+        },
       },
     });
 

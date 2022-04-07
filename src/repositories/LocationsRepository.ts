@@ -1,4 +1,4 @@
-import { Location } from '@prisma/client';
+import { Activation, Location } from '@prisma/client';
 
 export type CreateLocationDTO = {
   name: string;
@@ -21,16 +21,19 @@ export type UpdateLocationDTO = {
 }
 
 export type QueryParamsDTO = {
+  authorized: boolean;
   eventId?: number;
   brandId?: number;
 }
+
+export type FindAllLocationsDTO = Location & { activations: Activation[] }
 
 export interface LocationsRepository {
   findById(id: number): Promise<Location>
 
   findByEventAndBrandId(eventId: number, brandId: number): Promise<Location>
 
-  findAll(queryParams: QueryParamsDTO): Promise<Location[]>
+  findAll(queryParams: QueryParamsDTO): Promise<FindAllLocationsDTO[]>
 
   create(data: CreateLocationDTO): Promise<Location>
 
