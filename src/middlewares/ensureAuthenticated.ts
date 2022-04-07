@@ -29,5 +29,14 @@ export async function ensureAuthenticated(
 
   await ensureAuthenticatedUseCase.execute({ token });
 
+  const payload = jwtUserTokenProvider.decode(token);
+
+  request.user = {
+    id: payload.id,
+    email: payload.email,
+    name: payload.name,
+    role: payload.name,
+  };
+
   return next();
 }
