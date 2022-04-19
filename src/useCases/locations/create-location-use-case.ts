@@ -82,6 +82,8 @@ export class CreateLocationUseCase {
       locationCategoryId: locationCategoryExists.id,
     });
 
+    await this.eventsRepository.updateVersion(eventId);
+
     return location;
   }
 }

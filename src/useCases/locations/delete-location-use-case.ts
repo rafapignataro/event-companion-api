@@ -1,6 +1,7 @@
 import { APIError } from '../../helpers/Error';
 
 import { LocationsRepository } from '../../repositories/LocationsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 
 type DeleteLocationRequest = {
   id: number;
@@ -9,6 +10,7 @@ type DeleteLocationRequest = {
 export class DeleteLocationUseCase {
   constructor(
     private locationsRepository: LocationsRepository,
+    private eventsRepository: EventsRepository,
   ) {}
 
   public async execute({
@@ -31,5 +33,7 @@ export class DeleteLocationUseCase {
     }
 
     await this.locationsRepository.delete(locationExists.id);
+
+    await this.eventsRepository.updateVersion(locationExists.eventId);
   }
 }

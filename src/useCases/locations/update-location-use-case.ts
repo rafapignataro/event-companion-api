@@ -92,5 +92,7 @@ export class UpdateLocationUseCase {
       brandId,
       locationCategoryId: locationCategoryExists.id,
     });
+
+    await this.eventsRepository.updateVersion(eventId);
   }
 }
