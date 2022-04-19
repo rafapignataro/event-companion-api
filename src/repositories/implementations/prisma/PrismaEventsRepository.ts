@@ -1,4 +1,4 @@
-import { Event, PrismaClient } from '@prisma/client';
+import { Event, Prisma, PrismaClient } from '@prisma/client';
 
 import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
@@ -96,6 +96,12 @@ export class PrismaEventsRepository implements EventsRepository {
     });
 
     return event;
+  }
+
+  public async updateVersion(id: number): Promise<void> {
+    await this.prismaClient.$queryRaw(
+      Prisma.sql`update "events" set version = version + 1 where id = ${id}`,
+    );
   }
 
   public async delete(id: number): Promise<void> {

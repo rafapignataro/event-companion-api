@@ -58,5 +58,7 @@ export interface EventsRepository {
 
   update(id: number, data: UpdateEventDTO): Promise<Event>
 
+  updateVersion(id: number): Promise<void>
+
   delete(id: number): Promise<void>
 }
