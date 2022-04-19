@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 
+import { prisma } from '../infra/prisma';
+
 import { PrismaActivationsRepository } from '../repositories/implementations/prisma/PrismaActivationsRepository';
 import { PrismaLocationsRepository } from '../repositories/implementations/prisma/PrismaLocationsRepository';
 
@@ -7,64 +9,79 @@ import { CreateActivationUseCase } from '../useCases/activations/create-activati
 import { DeleteActivationUseCase } from '../useCases/activations/delete-activation-use-case';
 import { UpdateActivationUseCase } from '../useCases/activations/update-activation-use-case';
 import { FindActivationsUseCase } from '../useCases/activations/find-all-activation-use-case';
+import { PrismaEventsRepository } from '../repositories/implementations/prisma/PrismaEventsRepository';
 
 export class ActivationsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const prismaActivationsRepository = new PrismaActivationsRepository();
-    const prismaLocationsRepository = new PrismaLocationsRepository();
+    const activation = await prisma.$transaction(async (prismaClient) => {
+      const prismaActivationsRepository = new PrismaActivationsRepository(prismaClient);
+      const prismaLocationsRepository = new PrismaLocationsRepository(prismaClient);
+      const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
 
-    const createActivationUseCase = new CreateActivationUseCase(
-      prismaActivationsRepository,
-      prismaLocationsRepository,
-    );
+      const createActivationUseCase = new CreateActivationUseCase(
+        prismaActivationsRepository,
+        prismaLocationsRepository,
+        prismaEventsRepository,
+      );
 
-    const {
-      name, description, startDate, endDate, locationId,
-    } = request.body;
+      const {
+        name, description, startDate, endDate, locationId,
+      } = request.body;
 
-    const activation = await createActivationUseCase.execute({
-      name, description, startDate, endDate, locationId,
-    });
+      return createActivationUseCase.execute({
+        name, description, startDate, endDate, locationId,
+      });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json(activation);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const prismaActivationsRepository = new PrismaActivationsRepository();
-    const prismaLocationsRepository = new PrismaLocationsRepository();
+    await prisma.$transaction(async (prismaClient) => {
+      const prismaActivationsRepository = new PrismaActivationsRepository(prismaClient);
+      const prismaLocationsRepository = new PrismaLocationsRepository(prismaClient);
+      const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
 
-    const updateActivationUseCase = new UpdateActivationUseCase(
-      prismaActivationsRepository,
-      prismaLocationsRepository,
-    );
+      const updateActivationUseCase = new UpdateActivationUseCase(
+        prismaActivationsRepository,
+        prismaLocationsRepository,
+        prismaEventsRepository,
+      );
 
-    const { id } = request.params;
-    const {
-      name, description, startDate, endDate, locationId,
-    } = request.body;
+      const { id } = request.params;
+      const {
+        name, description, startDate, endDate, locationId,
+      } = request.body;
 
-    await updateActivationUseCase.execute({
-      id: Number(id),
-      name,
-      description,
-      startDate,
-      endDate,
-      locationId,
-    });
+      await updateActivationUseCase.execute({
+        id: Number(id),
+        name,
+        description,
+        startDate,
+        endDate,
+        locationId,
+      });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json();
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
-    const prismaActivationsRepository = new PrismaActivationsRepository();
+    await prisma.$transaction(async (prismaClient) => {
+      const prismaActivationsRepository = new PrismaActivationsRepository(prismaClient);
+      const prismaLocationsRepository = new PrismaLocationsRepository(prismaClient);
+      const prismaEventsRepository = new PrismaEventsRepository(prismaClient);
 
-    const deleteActivationUseCase = new DeleteActivationUseCase(
-      prismaActivationsRepository,
-    );
+      const deleteActivationUseCase = new DeleteActivationUseCase(
+        prismaActivationsRepository,
+        prismaLocationsRepository,
+        prismaEventsRepository,
+      );
 
-    const { id } = request.params;
+      const { id } = request.params;
 
-    await deleteActivationUseCase.execute({ id: Number(id) });
+      await deleteActivationUseCase.execute({ id: Number(id) });
+    }, { maxWait: 10000, timeout: 10000 });
 
     return response.json();
   }
