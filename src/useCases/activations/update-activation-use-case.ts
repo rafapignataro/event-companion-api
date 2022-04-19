@@ -1,6 +1,7 @@
 import { APIError } from '../../helpers/Error';
 
 import { ActivationsRepository } from '../../repositories/ActivationsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
 import { LocationsRepository } from '../../repositories/LocationsRepository';
 
 type UpdateActivationRequest = {
@@ -16,6 +17,7 @@ export class UpdateActivationUseCase {
   constructor(
     private activationsRepository: ActivationsRepository,
     private locationsRepository: LocationsRepository,
+    private eventsRepository: EventsRepository,
   ) {}
 
   public async execute({
@@ -57,5 +59,9 @@ export class UpdateActivationUseCase {
       startDate,
       endDate,
     });
+
+    const location = await this.locationsRepository.findById(locationId);
+
+    await this.eventsRepository.updateVersion(location.eventId);
   }
 }

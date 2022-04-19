@@ -1,6 +1,8 @@
 import { APIError } from '../../helpers/Error';
 
 import { ActivationsRepository } from '../../repositories/ActivationsRepository';
+import { EventsRepository } from '../../repositories/EventsRepository';
+import { LocationsRepository } from '../../repositories/LocationsRepository';
 
 type DeleteActivationRequest = {
   id: number;
@@ -9,6 +11,8 @@ type DeleteActivationRequest = {
 export class DeleteActivationUseCase {
   constructor(
     private activationsRepository: ActivationsRepository,
+    private locationsRepository: LocationsRepository,
+    private eventsRepository: EventsRepository,
   ) {}
 
   public async execute({
@@ -31,5 +35,9 @@ export class DeleteActivationUseCase {
     }
 
     await this.activationsRepository.delete(activationExists.id);
+
+    const location = await this.locationsRepository.findById(activationExists.locationId);
+
+    await this.eventsRepository.updateVersion(location.eventId);
   }
 }
