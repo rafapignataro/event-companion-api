@@ -18,13 +18,20 @@ export class PrismaEventsRepository implements EventsRepository {
       where: {
         id,
       },
+      include: {
+        eventCategory: true,
+      },
     });
 
     return event;
   }
 
   public async findAll(): Promise<Event[]> {
-    const events = await this.prismaClient.event.findMany();
+    const events = await this.prismaClient.event.findMany({
+      include: {
+        eventCategory: true,
+      },
+    });
 
     return events;
   }
@@ -82,6 +89,9 @@ export class PrismaEventsRepository implements EventsRepository {
   public async create(data: CreateEventDTO): Promise<Event> {
     const event = await this.prismaClient.event.create({
       data,
+      include: {
+        eventCategory: true,
+      },
     });
 
     return event;
@@ -93,6 +103,9 @@ export class PrismaEventsRepository implements EventsRepository {
         id,
       },
       data,
+      include: {
+        eventCategory: true,
+      },
     });
 
     return event;
