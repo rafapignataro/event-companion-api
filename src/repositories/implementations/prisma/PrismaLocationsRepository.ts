@@ -19,6 +19,7 @@ export class PrismaLocationsRepository implements LocationsRepository {
         id,
       },
       include: {
+        locationCategory: true,
         activations: true,
       },
     });
@@ -33,6 +34,7 @@ export class PrismaLocationsRepository implements LocationsRepository {
         brandId,
       },
       include: {
+        locationCategory: true,
         activations: true,
       },
     });
@@ -51,6 +53,7 @@ export class PrismaLocationsRepository implements LocationsRepository {
         brandId,
       },
       include: {
+        locationCategory: true,
         activations: {
           where: !authorized ? {
             endDate: {
