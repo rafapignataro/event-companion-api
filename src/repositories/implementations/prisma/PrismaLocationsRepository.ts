@@ -56,6 +56,9 @@ export class PrismaLocationsRepository implements LocationsRepository {
         locationCategory: true,
         activations: {
           where: !authorized ? {
+            startDate: {
+              lte: new Date().toISOString(),
+            },
             endDate: {
               gte: new Date().toISOString(),
             },
