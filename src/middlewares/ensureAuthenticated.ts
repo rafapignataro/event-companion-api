@@ -35,7 +35,7 @@ export async function ensureAuthenticated(
     id: payload.id,
     email: payload.email,
     name: payload.name,
-    role: payload.name,
+    role: payload.role,
   };
 
   return next();
