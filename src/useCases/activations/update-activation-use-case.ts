@@ -6,7 +6,6 @@ import { LocationsRepository } from '../../repositories/LocationsRepository';
 
 type UpdateActivationRequest = {
   id: number;
-  name: string;
   description: string;
   startDate: Date;
   endDate: Date;
@@ -18,17 +17,16 @@ export class UpdateActivationUseCase {
     private activationsRepository: ActivationsRepository,
     private locationsRepository: LocationsRepository,
     private eventsRepository: EventsRepository,
-  ) {}
+  ) { }
 
   public async execute({
     id,
-    name,
     description,
     startDate,
     endDate,
     locationId,
   }: UpdateActivationRequest): Promise<void> {
-    if (!id || !name || !description || !startDate || !endDate || !locationId) {
+    if (!id || !description || !startDate || !endDate || !locationId) {
       throw new APIError({
         code: 500,
         message: 'There are missing parameters.',
@@ -54,7 +52,6 @@ export class UpdateActivationUseCase {
     }
 
     await this.activationsRepository.update(activationExists.id, {
-      name,
       description,
       startDate,
       endDate,

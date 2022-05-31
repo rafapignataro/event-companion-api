@@ -55,6 +55,18 @@ const USERS = [
   }
 ]
 
+const LOCATIONS = [
+  {
+    id: 1,
+    name: 'Palco Principal',
+    description: 'Palco com os maiores cantores',
+    latitude: -23.700191,
+    longitude: -46.697567,
+    eventId: EVENT.id,
+    locationCategoryId: 1
+  },
+]
+
 async function seed() {
   // Event Categories
   await Promise.all(eventCategories.map(async (eventCategory) => prisma.eventCategory.upsert({
@@ -78,7 +90,7 @@ async function seed() {
     }),
   ));
 
-  // Base Event
+  // Events
   await prisma.event.upsert({
     where: { id: 1 },
     update: {},
@@ -93,7 +105,7 @@ async function seed() {
 
   const hashedPassword = await bcryptjs.hash('123456', 16);
 
-  // Base Users
+  // Users
   await Promise.all(USERS.map(async user => {
     return prisma.user.upsert({
       where: {
@@ -114,6 +126,24 @@ async function seed() {
             },
           },
         },
+      },
+    });
+  }));
+
+  // Locations
+  await Promise.all(LOCATIONS.map(async location => {
+    return prisma.location.upsert({
+      where: {
+        id: location.id,
+      },
+      update: {},
+      create: {
+        name: location.name,
+        description: location.description,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        eventId: location.eventId,
+        locationCategoryId: location.locationCategoryId,
       },
     });
   }));

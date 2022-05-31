@@ -190,7 +190,6 @@ model LocationCategory {
 
 model Activation {
   id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
   description String   @db.VarChar(255)
   startDate   DateTime
   endDate     DateTime

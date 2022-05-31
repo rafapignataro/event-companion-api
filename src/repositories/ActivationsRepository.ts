@@ -1,7 +1,6 @@
 import { Activation } from '@prisma/client';
 
 export type CreateActivationDTO = {
-  name: string;
   description: string;
   startDate: Date;
   endDate: Date;
@@ -9,7 +8,6 @@ export type CreateActivationDTO = {
 }
 
 export type UpdateActivationDTO = {
-  name: string;
   description: string;
   startDate: Date;
   endDate: Date;

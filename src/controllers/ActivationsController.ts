@@ -25,11 +25,11 @@ export class ActivationsController {
       );
 
       const {
-        name, description, startDate, endDate, locationId,
+        description, startDate, endDate, locationId,
       } = request.body;
 
       return createActivationUseCase.execute({
-        name, description, startDate, endDate, locationId,
+        description, startDate, endDate, locationId,
       });
     }, { maxWait: 10000, timeout: 10000 });
 
@@ -50,12 +50,11 @@ export class ActivationsController {
 
       const { id } = request.params;
       const {
-        name, description, startDate, endDate, locationId,
+        description, startDate, endDate, locationId,
       } = request.body;
 
       await updateActivationUseCase.execute({
         id: Number(id),
-        name,
         description,
         startDate,
         endDate,
