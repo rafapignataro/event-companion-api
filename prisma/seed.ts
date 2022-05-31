@@ -56,14 +56,52 @@ const USERS = [
 ]
 
 const LOCATIONS = [
+  // Attraction
   {
     id: 1,
-    name: 'Palco Principal',
-    description: 'Palco com os maiores cantores',
-    latitude: -23.700191,
-    longitude: -46.697567,
+    name: 'Palco Budweiser',
+    description: 'Palco Budweiser',
+    latitude: -23.700695,
+    longitude: -46.697523,
     eventId: EVENT.id,
     locationCategoryId: 1
+  },
+  {
+    id: 2,
+    name: 'Palco Onix',
+    description: 'Palco Onix',
+    latitude: -23.698483,
+    longitude: -46.696841,
+    eventId: EVENT.id,
+    locationCategoryId: 1
+  },
+  {
+    id: 3,
+    name: 'Palco Axe',
+    description: 'Palco Axe',
+    latitude: -23.697122,
+    longitude: -46.697425,
+    eventId: EVENT.id,
+    locationCategoryId: 1
+  },
+  // Shopping
+  {
+    id: 4,
+    name: 'Lolla Market',
+    description: 'Compre produtos do Lollapalooza',
+    latitude: -23.700561,
+    longitude: -46.698774,
+    eventId: EVENT.id,
+    locationCategoryId: 3
+  },
+  {
+    id: 5,
+    name: 'Budweiser',
+    description: 'Compre produtos Budweiser',
+    latitude: -23.701864,
+    longitude: -46.698758,
+    eventId: EVENT.id,
+    locationCategoryId: 3
   },
 ]
 
@@ -71,7 +109,10 @@ async function seed() {
   // Event Categories
   await Promise.all(eventCategories.map(async (eventCategory) => prisma.eventCategory.upsert({
     where: { code: eventCategory.code },
-    update: {},
+    update: {
+      code: eventCategory.code,
+      name: eventCategory.name,
+    },
     create: {
       code: eventCategory.code,
       name: eventCategory.name,
@@ -82,7 +123,10 @@ async function seed() {
   await Promise.all(locationCategories.map(
     async (locationCategory) => prisma.locationCategory.upsert({
       where: { code: locationCategory.code },
-      update: {},
+      update: {
+        code: locationCategory.code,
+        name: locationCategory.name
+      },
       create: {
         code: locationCategory.code,
         name: locationCategory.name,
@@ -93,7 +137,13 @@ async function seed() {
   // Events
   await prisma.event.upsert({
     where: { id: 1 },
-    update: {},
+    update: {
+      name: EVENT.name,
+      startDate: EVENT.startDate,
+      endDate: EVENT.endDate,
+      eventCategoryId: 1,
+      version: EVENT.version
+    },
     create: {
       name: EVENT.name,
       startDate: EVENT.startDate,
@@ -111,7 +161,11 @@ async function seed() {
       where: {
         id: user.id,
       },
-      update: {},
+      update: {
+        name: user.name,
+        email: user.email,
+        password: hashedPassword,
+      },
       create: {
         name: user.name,
         email: user.email,
@@ -136,7 +190,14 @@ async function seed() {
       where: {
         id: location.id,
       },
-      update: {},
+      update: {
+        name: location.name,
+        description: location.description,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        eventId: location.eventId,
+        locationCategoryId: location.locationCategoryId,
+      },
       create: {
         name: location.name,
         description: location.description,
