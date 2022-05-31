@@ -22,19 +22,41 @@ const locationCategories = [
 const EVENT = {
   id: 1,
   name: 'Lollapalooza',
-  email: 'superadmin@gmail.com',
-  password: '123456',
+  startDate: new Date('2021-06-01'),
+  endDate: new Date('2021-06-30'),
+  version: 1,
+  eventCategoryId: 1
 };
 
-const ADMIN = {
-  id: 1,
-  name: 'SUPER ADMIN',
-  email: 'superadmin@gmail.com',
-  password: '123456',
-  eventId: EVENT.id,
-};
+const USERS = [
+  {
+    id: 1,
+    name: 'Lollapalooza',
+    email: 'lollapalooza@gmail.com',
+    password: '123456',
+    eventId: EVENT.id,
+    type: 'admin'
+  },
+  {
+    id: 2,
+    name: 'Budweiser',
+    email: 'budweiser@gmail.com',
+    password: '123456',
+    eventId: EVENT.id,
+    type: 'brand'
+  },
+  {
+    id: 3,
+    name: 'McDonalds',
+    email: 'mcdonalds@gmail.com',
+    password: '123456',
+    eventId: EVENT.id,
+    type: 'brand'
+  }
+]
 
 async function seed() {
+  // Event Categories
   await Promise.all(eventCategories.map(async (eventCategory) => prisma.eventCategory.upsert({
     where: { code: eventCategory.code },
     update: {},
@@ -44,6 +66,7 @@ async function seed() {
     },
   })));
 
+  // Location Categories
   await Promise.all(locationCategories.map(
     async (locationCategory) => prisma.locationCategory.upsert({
       where: { code: locationCategory.code },
@@ -55,42 +78,52 @@ async function seed() {
     }),
   ));
 
+  // Base Event
   await prisma.event.upsert({
     where: { id: 1 },
     update: {},
     create: {
       name: EVENT.name,
-      startDate: new Date('2021-04-01'),
-      endDate: new Date('2021-04-30'),
+      startDate: EVENT.startDate,
+      endDate: EVENT.endDate,
       eventCategoryId: 1,
+      version: EVENT.version
     },
   });
 
-  await prisma.user.upsert({
-    where: {
-      id: 1,
-    },
-    update: {},
-    create: {
-      name: ADMIN.name,
-      email: ADMIN.email,
-      password: await bcryptjs.hash(ADMIN.password, 16),
-      admin: {
-        connectOrCreate: {
-          where: {
-            userId: 1,
-          },
-          create: {
-            eventId: ADMIN.eventId,
+  const hashedPassword = await bcryptjs.hash('123456', 16);
+
+  // Base Users
+  await Promise.all(USERS.map(async user => {
+    return prisma.user.upsert({
+      where: {
+        id: user.id,
+      },
+      update: {},
+      create: {
+        name: user.name,
+        email: user.email,
+        password: hashedPassword,
+        [user.type]: {
+          connectOrCreate: {
+            where: {
+              userId: user.id,
+            },
+            create: {
+              eventId: user.eventId,
+            },
           },
         },
       },
-    },
-  });
+    });
+  }));
 }
 
 seed()
-  .catch(() => process.exit(1))
+  .catch((error) => {
+    console.log(error)
+    process.exit(1)
+  })
   .finally(async () => {
     await prisma.$disconnect();
   });
