@@ -28,6 +28,11 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         email,
       },
+      include: {
+        admin: true,
+        brand: true,
+        customer: true
+      }
     });
 
     return user;

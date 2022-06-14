@@ -1,7 +1,7 @@
 import { APIError } from '../../helpers/Error';
 
 import { HashProvider } from '../../providers/hashProvider/HashProvider';
-import { UserTokenProvider } from '../../providers/userTokenProvider/UserTokenProvider';
+import { CreateUserTokenData, UserTokenProvider } from '../../providers/userTokenProvider/UserTokenProvider';
 
 import { UsersRepository } from '../../repositories/UsersRepository';
 
@@ -24,7 +24,7 @@ export class AuthenticateUserUseCase {
     private usersRepository: UsersRepository,
     private userTokenProvider: UserTokenProvider,
     private hashProvider: HashProvider,
-  ) {}
+  ) { }
 
   public async execute({
     email, password,
@@ -54,12 +54,17 @@ export class AuthenticateUserUseCase {
       });
     }
 
-    const userPayload = {
+    const userPayload: CreateUserTokenData = {
       id: user.id,
       email: user.email,
       name: user.name,
       role: user.role,
     };
+
+    if (user.role === 'CUSTOMER') {
+      userPayload.customerId = user.customer.id;
+      userPayload.avatarColor = user.customer.avatarColor;
+    }
 
     const token = this.userTokenProvider.create(userPayload);
 

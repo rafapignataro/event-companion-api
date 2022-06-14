@@ -3,6 +3,8 @@ export type CreateUserTokenData = {
   name: string;
   email: string;
   role: string;
+  customerId?: number;
+  avatarColor?: string;
 }
 
 export type DecodeTokenData = {

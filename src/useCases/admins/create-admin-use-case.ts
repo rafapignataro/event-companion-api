@@ -21,7 +21,7 @@ export class CreateAdminUseCase {
     private eventsRepository: EventsRepository,
     private adminsRepository: AdminsRepository,
     private hashProvider: HashProvider,
-  ) {}
+  ) { }
 
   public async execute({
     name,
@@ -67,6 +67,7 @@ export class CreateAdminUseCase {
       name,
       email,
       password: passwordHash,
+      role: 'ADMIN'
     });
 
     const admin = await this.adminsRepository.create({

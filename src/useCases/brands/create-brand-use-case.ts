@@ -21,7 +21,7 @@ export class CreateBrandUseCase {
     private eventsRepository: EventsRepository,
     private brandsRepository: BrandsRepository,
     private hashProvider: HashProvider,
-  ) {}
+  ) { }
 
   public async execute({
     name,
@@ -67,6 +67,7 @@ export class CreateBrandUseCase {
       name,
       email,
       password: passwordHash,
+      role: 'BRAND'
     });
 
     const brand = await this.brandsRepository.create({

@@ -9,16 +9,17 @@ type CreateUserRequest = {
   email: string;
   name: string
   password: string;
+  role: string;
 }
 
 export class CreateUserUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private hashProvider: HashProvider,
-  ) {}
+  ) { }
 
   public async execute({
-    email, name, password,
+    email, name, password, role
   }: CreateUserRequest): Promise<User> {
     if (!email || !name || !password) {
       throw new APIError({
@@ -49,6 +50,7 @@ export class CreateUserUseCase {
       email,
       name,
       password: passwordHash,
+      role
     });
 
     return user;
