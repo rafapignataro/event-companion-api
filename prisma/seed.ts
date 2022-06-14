@@ -35,7 +35,7 @@ const USERS = [
     email: 'lollapalooza@gmail.com',
     password: '123456',
     eventId: EVENT.id,
-    type: 'admin'
+    role: 'ADMIN'
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const USERS = [
     email: 'budweiser@gmail.com',
     password: '123456',
     eventId: EVENT.id,
-    type: 'brand'
+    role: 'BRAND'
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ const USERS = [
     email: 'mcdonalds@gmail.com',
     password: '123456',
     eventId: EVENT.id,
-    type: 'brand'
+    role: 'BRAND'
   }
 ]
 
@@ -165,12 +165,14 @@ async function seed() {
         name: user.name,
         email: user.email,
         password: hashedPassword,
+        role: user.role
       },
       create: {
         name: user.name,
         email: user.email,
         password: hashedPassword,
-        [user.type]: {
+        role: user.role,
+        [user.role.toLocaleLowerCase()]: {
           connectOrCreate: {
             where: {
               userId: user.id,
