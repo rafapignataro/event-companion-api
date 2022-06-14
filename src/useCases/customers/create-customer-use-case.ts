@@ -11,6 +11,7 @@ type CreateCustomerRequest = {
   name: string;
   email: string;
   password: string;
+  passwordRepeated: string;
   avatarColor?: string;
 }
 
@@ -19,12 +20,13 @@ export class CreateCustomerUseCase {
     private usersRepository: UsersRepository,
     private customersRepository: CustomersRepository,
     private hashProvider: HashProvider,
-  ) {}
+  ) { }
 
   public async execute({
     name,
     email,
     password,
+    passwordRepeated,
     avatarColor,
   }: CreateCustomerRequest): Promise<Customer> {
     if (!name || !email || !password) {
@@ -32,6 +34,13 @@ export class CreateCustomerUseCase {
         code: 500,
         message: 'There are missing parameters.',
       });
+    }
+
+    if (password !== passwordRepeated) {
+      throw new APIError({
+        code: 500,
+        message: 'The passwords provided must be the same.'
+      })
     }
 
     const userAlreadyExists = await this.usersRepository.findByEmail(email);

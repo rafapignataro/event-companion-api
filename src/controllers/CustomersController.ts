@@ -17,7 +17,7 @@ export class CustomersController {
     const bcryptHashProvider = new BCryptHashProvider();
 
     const {
-      email, name, password, avatarColor,
+      email, name, password, passwordRepeated, avatarColor,
     } = request.body;
 
     const customer = await prisma.$transaction(async (prismaClient) => {
@@ -31,7 +31,7 @@ export class CustomersController {
       );
 
       return createCustomerUseCase.execute({
-        name, email, password, avatarColor,
+        name, email, password, passwordRepeated, avatarColor,
       });
     }, { maxWait: 10000, timeout: 10000 });
 
