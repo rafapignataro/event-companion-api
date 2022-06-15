@@ -5,6 +5,10 @@ export type CreateUserTokenData = {
   role: string;
   customerId?: number;
   avatarColor?: string;
+  events?: {
+    visitorId: number;
+    eventId: number;
+  }[]
 }
 
 export type DecodeTokenData = {
