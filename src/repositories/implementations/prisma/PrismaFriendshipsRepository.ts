@@ -31,14 +31,42 @@ export class PrismaFriendshipsRepository implements FriendshipsRepository {
       },
     });
 
-    return friendship;
+    if (friendship) return friendship
+
+    const friendshipReversed = await this.prismaClient.friendship.findFirst({
+      where: {
+        customerId: friendId,
+        friendId: customerId,
+      },
+    });
+
+    return friendshipReversed;
   }
 
   public async findAll({ customerId }: QueryParamsDTO): Promise<Friendship[]> {
     const friendships = await this.prismaClient.friendship.findMany({
       where: {
-        customerId,
+        OR: [
+          {
+            customerId,
+          },
+          {
+            friendId: customerId,
+          }
+        ]
       },
+      include: {
+        customer: {
+          include: {
+            user: true
+          }
+        },
+        friend: {
+          include: {
+            user: true
+          }
+        },
+      }
     });
 
     return friendships;
