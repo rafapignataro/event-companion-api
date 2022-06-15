@@ -9,7 +9,7 @@ type FindFriendshipsRequest = {
 export class FindFriendshipsUseCase {
   constructor(
     private friendshipsRepository: FriendshipsRepository,
-  ) {}
+  ) { }
 
   public async execute({ customerId }: FindFriendshipsRequest): Promise<Friendship[]> {
     const friendships = await this.friendshipsRepository.findAll({

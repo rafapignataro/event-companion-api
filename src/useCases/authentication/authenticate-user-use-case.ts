@@ -64,6 +64,10 @@ export class AuthenticateUserUseCase {
     if (user.role === 'CUSTOMER') {
       userPayload.customerId = user.customer.id;
       userPayload.avatarColor = user.customer.avatarColor;
+      userPayload.events = user.customer.visitors.map(visitor => ({
+        visitorId: visitor.id,
+        eventId: visitor.event.id,
+      }))
     }
 
     const token = this.userTokenProvider.create(userPayload);

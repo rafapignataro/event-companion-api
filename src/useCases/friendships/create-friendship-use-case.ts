@@ -15,7 +15,7 @@ export class CreateFriendshipUseCase {
   constructor(
     private customersRepository: CustomersRepository,
     private friendshipsRepository: FriendshipsRepository,
-  ) {}
+  ) { }
 
   public async execute({
     customerId,
@@ -66,19 +66,40 @@ export class CreateFriendshipUseCase {
       friendId,
     );
 
-    if (friendshipRelationExists) {
+    if (!friendshipRelationExists) {
+      const friendship = await this.friendshipsRepository.create({
+        status,
+        customerId,
+        friendId,
+      });
+
+      return friendship;
+    }
+
+    if (friendshipRelationExists.status === 'REFUSED') {
+      await this.friendshipsRepository.delete(friendshipRelationExists.id);
+
+      const friendship = await this.friendshipsRepository.create({
+        status,
+        customerId,
+        friendId,
+      });
+
+      return friendship;
+    }
+
+    if (friendshipRelationExists.status === 'ACCEPTED') {
       throw new APIError({
         code: 500,
-        message: 'This friendship relation already exists.',
+        message: 'You already have a friendship this this person.',
       });
     }
 
-    const friendship = await this.friendshipsRepository.create({
-      status,
-      customerId,
-      friendId,
-    });
-
-    return friendship;
+    if (friendshipRelationExists) {
+      throw new APIError({
+        code: 500,
+        message: 'You have already sent a request to this person.',
+      });
+    }
   }
 }

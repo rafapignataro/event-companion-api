@@ -13,7 +13,7 @@ export class UpdateFriendshipUseCase {
   constructor(
     private customersRepository: CustomersRepository,
     private friendshipsRepository: FriendshipsRepository,
-  ) {}
+  ) { }
 
   public async execute({
     customerId,
