@@ -35,6 +35,31 @@ export class PrismaCustomersRepository implements CustomersRepository {
     return customers;
   }
 
+  public async search(text: string): Promise<Customer[]> {
+    const customers = await this.prismaClient.customer.findMany({
+      include: {
+        user: true,
+      },
+      where: {
+        user: {
+          OR: [{
+            name: {
+              contains: text,
+              mode: 'insensitive'
+            },
+          }, {
+            email: {
+              contains: text,
+              mode: 'insensitive'
+            },
+          }]
+        }
+      }
+    });
+
+    return customers;
+  }
+
   public async create(data: CreateCustomerDTO): Promise<Customer> {
     const customer = await this.prismaClient.customer.create({
       data,

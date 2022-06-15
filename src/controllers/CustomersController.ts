@@ -11,6 +11,7 @@ import { CreateCustomerUseCase } from '../useCases/customers/create-customer-use
 import { UpdateCustomerUseCase } from '../useCases/customers/update-customer-use-case';
 import { FindCustomerByIdUseCase } from '../useCases/customers/find-customer-by-id-use-case';
 import { FindAllCustomersUseCase } from '../useCases/customers/find-all-customers-use-case';
+import { SearchForCustomersUseCase } from '../useCases/customers/search-for-customer.use-case';
 
 export class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -81,6 +82,20 @@ export class CustomersController {
     );
 
     const customers = await findAllCustomersUseCase.execute();
+
+    return response.json(customers);
+  }
+
+  public async search(request: Request, response: Response): Promise<Response> {
+    const prismaCustomersRepository = new PrismaCustomersRepository();
+
+    const searchForCustomersUseCase = new SearchForCustomersUseCase(
+      prismaCustomersRepository,
+    );
+
+    const { text } = request.query;
+
+    const customers = await searchForCustomersUseCase.execute({ text: String(text) });
 
     return response.json(customers);
   }

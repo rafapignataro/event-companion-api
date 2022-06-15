@@ -14,8 +14,11 @@ customerRoutes.use(ensureAuthenticated);
 
 customerRoutes.put('/:id', customersController.update);
 
+customerRoutes.get('/search', customersController.search);
+
 customerRoutes.get('/:id', customersController.findById);
 
 customerRoutes.get('/', customersController.findAll);
+
 
 export { customerRoutes };
