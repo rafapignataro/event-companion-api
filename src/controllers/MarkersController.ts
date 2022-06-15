@@ -65,13 +65,9 @@ export class MarkersController {
       prismaEventsRepository,
     );
 
-    const {
-      visitorId, eventId,
-    } = request.body;
+    const { id } = request.params;
 
-    await deleteMarkerUseCase.execute({
-      visitorId, eventId,
-    });
+    await deleteMarkerUseCase.execute({ id: Number(id) });
 
     return response.json();
   }

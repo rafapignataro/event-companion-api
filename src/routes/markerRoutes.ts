@@ -12,9 +12,9 @@ markerRoutes.use(ensureAuthenticated);
 
 markerRoutes.post('/', markersController.create);
 
-markerRoutes.put('/', markersController.update);
+markerRoutes.put('/:id', markersController.update);
 
-markerRoutes.delete('/', markersController.delete);
+markerRoutes.delete('/:id', markersController.delete);
 
 markerRoutes.get('/', markersController.findAll);
 
