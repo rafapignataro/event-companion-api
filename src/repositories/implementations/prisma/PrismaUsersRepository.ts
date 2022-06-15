@@ -3,7 +3,7 @@ import { PrismaClient, User } from '@prisma/client';
 import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
 import {
-  UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO,
+  UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO, FindByEmail,
 } from '../../UsersRepository';
 
 export class PrismaUsersRepository implements UsersRepository {
@@ -31,7 +31,15 @@ export class PrismaUsersRepository implements UsersRepository {
       include: {
         admin: true,
         brand: true,
-        customer: true
+        customer: {
+          include: {
+            visitors: {
+              include: {
+                event: true,
+              }
+            }
+          }
+        }
       }
     });
 
