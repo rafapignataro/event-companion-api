@@ -18,6 +18,17 @@ export class PrismaMarkersRepository implements MarkersRepository {
       where: {
         id,
       },
+      include: {
+        visitor: {
+          include: {
+            customer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return marker;
@@ -29,16 +40,39 @@ export class PrismaMarkersRepository implements MarkersRepository {
         visitorId,
         eventId,
       },
+      include: {
+        visitor: {
+          include: {
+            customer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return marker;
   }
 
-  public async findAll({ visitorId }: QueryParamsDTO): Promise<Marker[]> {
+  public async findAll({ visitorId, eventId }: QueryParamsDTO): Promise<Marker[]> {
     const markers = await this.prismaClient.marker.findMany({
       where: {
         visitorId,
+        eventId
       },
+      include: {
+        visitor: {
+          include: {
+            customer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return markers;
@@ -47,6 +81,17 @@ export class PrismaMarkersRepository implements MarkersRepository {
   public async create(data: CreateMarkerDTO): Promise<Marker> {
     const marker = await this.prismaClient.marker.create({
       data,
+      include: {
+        visitor: {
+          include: {
+            customer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return marker;
@@ -58,6 +103,17 @@ export class PrismaMarkersRepository implements MarkersRepository {
         id,
       },
       data,
+      include: {
+        visitor: {
+          include: {
+            customer: {
+              include: {
+                user: true
+              }
+            }
+          }
+        }
+      }
     });
 
     return marker;
