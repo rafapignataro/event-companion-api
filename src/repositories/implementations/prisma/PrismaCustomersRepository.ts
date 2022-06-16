@@ -19,6 +19,11 @@ export class PrismaCustomersRepository implements CustomersRepository {
       },
       include: {
         user: true,
+        visitors: {
+          include: {
+            event: true
+          }
+        }
       },
     });
 

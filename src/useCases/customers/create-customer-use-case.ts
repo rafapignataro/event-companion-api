@@ -67,7 +67,7 @@ export class CreateCustomerUseCase {
       if (!isAvatarColorCorrect) {
         throw new APIError({
           code: 500,
-          message: 'The avatar color passed is wrong. Ex.: #123456',
+          message: 'The avatar color passed is wrong. Ex.: #59FFFF',
         });
       }
     }
@@ -81,7 +81,7 @@ export class CreateCustomerUseCase {
 
     const customer = await this.customersRepository.create({
       userId: user.id,
-      avatarColor: avatarColor || '#123456',
+      avatarColor: avatarColor || '#59FFFF',
     });
 
     return customer;

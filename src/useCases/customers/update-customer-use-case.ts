@@ -2,6 +2,8 @@ import { APIError } from '../../helpers/Error';
 
 import { UsersRepository } from '../../repositories/UsersRepository';
 import { CustomersRepository } from '../../repositories/CustomersRepository';
+import { CreateUserTokenData } from '../../providers/userTokenProvider/UserTokenProvider';
+import { JwtUserTokenProvider } from '../../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 
 type UpdateCustomerRequest = {
   id: number;
@@ -10,15 +12,21 @@ type UpdateCustomerRequest = {
   avatarColor?: string;
 }
 
+type UpdateCustomerResponse = {
+  token: string,
+  user: CreateUserTokenData
+}
+
 export class UpdateCustomerUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private customersRepository: CustomersRepository,
-  ) {}
+    private userTokenProvider: JwtUserTokenProvider,
+  ) { }
 
   public async execute({
     id, name, email, avatarColor,
-  }: UpdateCustomerRequest): Promise<void> {
+  }: UpdateCustomerRequest): Promise<UpdateCustomerResponse> {
     if (!id || !name || !email) {
       throw new APIError({
         code: 500,
@@ -41,7 +49,7 @@ export class UpdateCustomerUseCase {
       if (!isAvatarColorCorrect) {
         throw new APIError({
           code: 500,
-          message: 'The avatar color passed is wrong. Ex.: #123456',
+          message: 'The avatar color passed is wrong. Ex.: #59FFFF',
         });
       }
     }
@@ -54,5 +62,22 @@ export class UpdateCustomerUseCase {
     await this.customersRepository.update(id, {
       avatarColor: avatarColor || customer.avatarColor,
     });
+
+    const userPayload: CreateUserTokenData = {
+      id: customer.userId,
+      email,
+      name,
+      role: 'CUSTOMER',
+      customerId: customer.id,
+      avatarColor,
+      events: customer.visitors.map(visitor => ({
+        visitorId: visitor.id,
+        eventId: visitor.event.id,
+      }))
+    };
+
+    const token = this.userTokenProvider.create(userPayload);
+
+    return { token, user: userPayload };
   }
 }

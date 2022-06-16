@@ -12,6 +12,7 @@ import { UpdateCustomerUseCase } from '../useCases/customers/update-customer-use
 import { FindCustomerByIdUseCase } from '../useCases/customers/find-customer-by-id-use-case';
 import { FindAllCustomersUseCase } from '../useCases/customers/find-all-customers-use-case';
 import { SearchForCustomersUseCase } from '../useCases/customers/search-for-customer.use-case';
+import { JwtUserTokenProvider } from '../providers/userTokenProvider/implementations/jwtUserTokenProvider';
 
 export class CustomersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -43,21 +44,23 @@ export class CustomersController {
     const { id } = request.params;
     const { name, email, avatarColor } = request.body;
 
-    await prisma.$transaction(async (prismaClient) => {
+    const customer = await prisma.$transaction(async (prismaClient) => {
       const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
       const prismaCustomersRepository = new PrismaCustomersRepository(prismaClient);
+      const jwtUserTokenProvider = new JwtUserTokenProvider();
 
       const updateCustomerUseCase = new UpdateCustomerUseCase(
         prismaUsersRepository,
         prismaCustomersRepository,
+        jwtUserTokenProvider
       );
 
-      await updateCustomerUseCase.execute({
+      return updateCustomerUseCase.execute({
         id: Number(id), name, email, avatarColor,
       });
     }, { maxWait: 10000, timeout: 10000 });
 
-    return response.json();
+    return response.json(customer);
   }
 
   public async findById(request: Request, response: Response): Promise<Response> {
