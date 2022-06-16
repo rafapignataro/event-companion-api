@@ -54,7 +54,7 @@ export class UpdateCustomerUseCase {
       }
     }
 
-    await this.usersRepository.update(customer.id, {
+    await this.usersRepository.update(customer.userId, {
       name,
       email,
     });
