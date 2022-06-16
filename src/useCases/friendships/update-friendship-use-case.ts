@@ -59,8 +59,8 @@ export class UpdateFriendshipUseCase {
 
     if (!friendshipRelationExists) {
       const reversedFriendshipRelation = await this.friendshipsRepository.findRelation(
-        customerId,
         friendId,
+        customerId
       );
 
       if (!reversedFriendshipRelation) {
