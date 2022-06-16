@@ -10,12 +10,12 @@ type FetchEventSummaryRequest = {
 export class FetchEventSummaryUseCase {
   constructor(
     private eventsRepository: EventsRepository,
-  ) {}
+  ) { }
 
   public async execute({
     id,
     version,
-  }: FetchEventSummaryRequest): Promise<EventSummaryDTO | null> {
+  }: FetchEventSummaryRequest): Promise<any | null> {
     if (!id || !version) {
       throw new APIError({
         code: 500,

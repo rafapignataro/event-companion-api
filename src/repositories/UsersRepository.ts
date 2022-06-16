@@ -19,7 +19,7 @@ export type UpdatePasswordDTO = {
 export interface UsersRepository {
   findById(id: number): Promise<User>
 
-  findByEmail(email: string): Promise<User>
+  findByEmail(email: string): Promise<any>
 
   findAll(): Promise<User[]>
 

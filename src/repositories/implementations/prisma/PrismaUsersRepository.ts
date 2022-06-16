@@ -2,9 +2,7 @@ import { PrismaClient, User } from '@prisma/client';
 
 import { prisma, PrismaTransactionClient } from '../../../infra/prisma';
 
-import {
-  UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO, FindByEmail,
-} from '../../UsersRepository';
+import { UsersRepository, CreateUserDTO, UpdateUserDTO, UpdatePasswordDTO, } from '../../UsersRepository';
 
 export class PrismaUsersRepository implements UsersRepository {
   private prismaClient: PrismaClient | PrismaTransactionClient = prisma;
@@ -23,7 +21,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<any> {
     const user = await this.prismaClient.user.findFirst({
       where: {
         email,

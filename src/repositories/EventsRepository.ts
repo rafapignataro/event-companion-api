@@ -52,7 +52,7 @@ export interface EventsRepository {
 
   findAll(): Promise<Event[]>
 
-  summary(id: number): Promise<EventSummaryDTO>
+  summary(id: number): Promise<Event>
 
   create(data: CreateEventDTO): Promise<Event>
 

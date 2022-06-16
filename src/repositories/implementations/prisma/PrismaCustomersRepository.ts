@@ -12,7 +12,7 @@ export class PrismaCustomersRepository implements CustomersRepository {
     if (prismaTransactionClient) this.prismaClient = prismaTransactionClient;
   }
 
-  public async findById(id: number): Promise<Customer> {
+  public async findById(id: number): Promise<any> {
     const customer = await this.prismaClient.customer.findUnique({
       where: {
         id,

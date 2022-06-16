@@ -10,7 +10,7 @@ export type UpdateCustomerDTO = {
 }
 
 export interface CustomersRepository {
-  findById(id: number): Promise<Customer>
+  findById(id: number): Promise<any>
 
   findAll(): Promise<Customer[]>
 

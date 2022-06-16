@@ -36,7 +36,7 @@ export class PrismaEventsRepository implements EventsRepository {
     return events;
   }
 
-  public async summary(id: number): Promise<EventSummaryDTO> {
+  public async summary(id: number): Promise<any> {
     const event = await this.prismaClient.event.findUnique({
       where: {
         id,
@@ -72,7 +72,6 @@ export class PrismaEventsRepository implements EventsRepository {
             activations: {
               select: {
                 id: true,
-                name: true,
                 description: true,
                 startDate: true,
                 endDate: true,

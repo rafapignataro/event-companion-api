@@ -11,6 +11,6 @@
     "forceConsistentCasingInFileNames": true,
     "strict": false,
     "skipLibCheck": true,
-    "outDir": "./build"
+    "outDir": "./build",
   }
 }
