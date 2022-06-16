@@ -58,9 +58,20 @@ export class UpdateFriendshipUseCase {
     );
 
     if (!friendshipRelationExists) {
-      throw new APIError({
-        code: 500,
-        message: 'This friendship relation does not exist.',
+      const reversedFriendshipRelation = await this.friendshipsRepository.findRelation(
+        customerId,
+        friendId,
+      );
+
+      if (!reversedFriendshipRelation) {
+        throw new APIError({
+          code: 500,
+          message: 'This friendship relation does not exist.',
+        });
+      }
+
+      await this.friendshipsRepository.update(reversedFriendshipRelation.id, {
+        status,
       });
     }
 
