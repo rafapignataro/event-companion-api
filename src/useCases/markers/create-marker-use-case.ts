@@ -50,14 +50,11 @@ export class CreateMarkerUseCase {
         message: 'This event does not exist.',
       });
     }
-    console.log(visitorId, eventId)
 
     const visitorHasMarker = await this.markersRepository.findByVisitorAndEventId(
       visitorId,
       eventId,
     );
-
-    console.log('visitorHasMarker', visitorHasMarker)
 
     if (visitorHasMarker) await this.markersRepository.delete(visitorHasMarker.id);
 
