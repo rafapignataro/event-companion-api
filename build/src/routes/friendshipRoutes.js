@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.friendshipRoutes = void 0;
+const express_1 = require("express");
+const ensureAuthenticated_1 = require("../middlewares/ensureAuthenticated");
+const FriendshipsController_1 = require("../controllers/FriendshipsController");
+const friendshipsController = new FriendshipsController_1.FriendshipsController();
+const friendshipRoutes = (0, express_1.Router)();
+exports.friendshipRoutes = friendshipRoutes;
+friendshipRoutes.use(ensureAuthenticated_1.ensureAuthenticated);
+friendshipRoutes.post('/', friendshipsController.create);
+friendshipRoutes.put('/', friendshipsController.update);
+friendshipRoutes.get('/', friendshipsController.findAll);

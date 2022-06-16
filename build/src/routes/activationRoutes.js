@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.activationRoutes = void 0;
+const express_1 = require("express");
+const ensureAuthenticated_1 = require("../middlewares/ensureAuthenticated");
+const ActivationsController_1 = require("../controllers/ActivationsController");
+const activationsController = new ActivationsController_1.ActivationsController();
+const activationRoutes = (0, express_1.Router)();
+exports.activationRoutes = activationRoutes;
+activationRoutes.use(ensureAuthenticated_1.ensureAuthenticated);
+activationRoutes.post('/', activationsController.create);
+activationRoutes.put('/:id', activationsController.update);
+activationRoutes.delete('/:id', activationsController.delete);
+activationRoutes.get('/', activationsController.findAll);
