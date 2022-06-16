@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "prepare": "npx prisma generate",
     "build": "tsc",
-    "start": "yarn prisma db push && yarn prisma db seed && node build/src/server.js"
+    "start": "node build/src/server.js"
   },
   "prisma": {
     "seed": "ts-node-dev --transpile-only prisma/seed.ts"
