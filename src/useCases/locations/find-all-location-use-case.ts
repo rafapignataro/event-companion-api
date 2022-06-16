@@ -11,7 +11,7 @@ type FindLocationsRequest = {
 export class FindLocationsUseCase {
   constructor(
     private locationsRepository: LocationsRepository,
-  ) {}
+  ) { }
 
   public async execute({ role, eventId, brandId }: FindLocationsRequest): Promise<Location[]> {
     const locations = await this.locationsRepository.findAll({
